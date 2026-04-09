@@ -1,0 +1,46 @@
+# ================================
+# AI Skill Gap & Employability Intelligence Platform
+# Python Dependencies
+# ================================
+
+# --- Core Framework ---
+fastapi==0.115.0
+uvicorn[standard]==0.30.0
+pydantic==2.9.0
+python-multipart==0.0.9
+
+# --- Database ---
+sqlalchemy==2.0.35
+psycopg2-binary==2.9.9   # PostgreSQL driver for production (Render + Neon/Supabase)
+
+# --- NLP Pipeline ---
+spacy==3.7.6
+sentence-transformers==3.1.0
+transformers==4.44.0
+
+# --- ML/AI Models ---
+scikit-learn==1.5.2
+xgboost==2.1.1
+joblib==1.4.2
+
+# --- Explainable AI (XAI) ---
+shap==0.46.0
+lime==0.2.0.1
+
+# --- Data Processing ---
+pandas==2.2.3
+numpy==1.26.4
+scipy==1.14.1
+
+# --- Graph Algorithms ---
+networkx==3.3
+
+# --- Web Scraping ---
+beautifulsoup4==4.12.3
+requests==2.32.3
+
+# --- PDF Parsing ---
+PyPDF2==3.0.1
+
+# --- Utilities ---
+python-dotenv==1.0.1

@@ -1,0 +1,27 @@
+{
+  "source": "U.S. Department of Labor O*NET OnLine",
+  "version": "28.1",
+  "url": "https://www.onetonline.org/",
+  "occupation_codes": {
+    "15-1252.00": {"title": "Software Developers", "category": "Computer and Mathematical"},
+    "15-1254.00": {"title": "Web Developers", "category": "Computer and Mathematical"},
+    "15-2051.00": {"title": "Data Scientists", "category": "Computer and Mathematical"},
+    "15-1244.00": {"title": "Network and Computer Systems Administrators", "category": "Computer and Mathematical"},
+    "15-1212.00": {"title": "Information Security Analysts", "category": "Computer and Mathematical"},
+    "15-1241.00": {"title": "Computer Network Architects", "category": "Computer and Mathematical"},
+    "15-1253.00": {"title": "Software Quality Assurance Analysts", "category": "Computer and Mathematical"},
+    "15-1255.00": {"title": "Web and Digital Interface Designers", "category": "Computer and Mathematical"}
+  },
+  "skill_elements": {
+    "programming": {"element_id": "2.B.3.a", "name": "Programming", "description": "Writing computer programs for various purposes"},
+    "systems_analysis": {"element_id": "2.B.3.b", "name": "Systems Analysis", "description": "Determining how a system should work"},
+    "technology_design": {"element_id": "2.B.3.c", "name": "Technology Design", "description": "Generating or adapting equipment and technology"},
+    "troubleshooting": {"element_id": "2.B.3.d", "name": "Troubleshooting", "description": "Determining causes of operating errors"},
+    "operations_analysis": {"element_id": "2.B.3.e", "name": "Operations Analysis", "description": "Analyzing needs and product requirements"},
+    "quality_control": {"element_id": "2.B.3.f", "name": "Quality Control Analysis", "description": "Conducting tests and inspections"},
+    "complex_problem_solving": {"element_id": "2.A.2.a", "name": "Complex Problem Solving", "description": "Identifying complex problems and developing options"},
+    "critical_thinking": {"element_id": "2.A.2.b", "name": "Critical Thinking", "description": "Using logic and reasoning to identify strengths and weaknesses"},
+    "mathematics": {"element_id": "2.A.1.e", "name": "Mathematics", "description": "Using mathematics to solve problems"},
+    "active_learning": {"element_id": "2.A.2.c", "name": "Active Learning", "description": "Understanding the implications of new information"}
+  }
+}

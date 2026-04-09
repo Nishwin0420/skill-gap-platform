@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================
+   BASE STYLES
+   ================================ */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #0a1f1a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ================================
+     SCROLLBAR
+     ================================ */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a1310;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #134e4a;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0f766e;
+  }
+}
+
+/* ================================
+   GLASSMORPHISM CARDS
+   ================================ */
+@layer components {
+  .glass-card {
+    @apply bg-opacity-80 backdrop-blur-md rounded-xl border border-primary-900/30;
+    background: rgba(20, 40, 35, 0.8);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    @apply border-primary-600/40;
+    box-shadow: 0 8px 40px rgba(45, 212, 191, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .gradient-border {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #2dd4bf, #f59e0b);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  /* Score Badge */
+  .score-badge {
+    @apply inline-flex items-center justify-center rounded-full font-bold;
+    min-width: 60px;
+    min-height: 60px;
+  }
+
+  .score-excellent {
+    @apply text-emerald-400;
+    background: rgba(16, 185, 129, 0.15);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  }
+
+  .score-good {
+    @apply text-primary-400;
+    background: rgba(45, 212, 191, 0.15);
+    box-shadow: 0 0 20px rgba(45, 212, 191, 0.2);
+  }
+
+  .score-fair {
+    @apply text-amber-400;
+    background: rgba(245, 158, 11, 0.15);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+  }
+
+  .score-poor {
+    @apply text-red-400;
+    background: rgba(239, 68, 68, 0.15);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+  }
+
+  /* Skill Tags */
+  .skill-tag {
+    @apply px-3 py-1 rounded-full text-sm font-medium transition-all duration-200;
+  }
+
+  .skill-tag-matched {
+    @apply skill-tag text-emerald-300;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .skill-tag-missing {
+    @apply skill-tag text-red-300;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .skill-tag-extra {
+    @apply skill-tag text-blue-300;
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  /* Navigation */
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-gray-400;
+  }
+
+  .nav-item:hover {
+    @apply text-primary-300;
+    background: rgba(45, 212, 191, 0.08);
+  }
+
+  .nav-item.active {
+    @apply text-primary-400 font-medium;
+    background: rgba(45, 212, 191, 0.12);
+    border-left: 3px solid #2dd4bf;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300;
+    background: linear-gradient(135deg, #0f766e, #2dd4bf);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 4px 20px rgba(45, 212, 191, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-primary-400;
+    background: rgba(45, 212, 191, 0.1);
+    border: 1px solid rgba(45, 212, 191, 0.3);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(45, 212, 191, 0.2);
+  }
+
+  /* Inputs */
+  .input-dark {
+    @apply w-full px-4 py-3 rounded-lg text-gray-200 placeholder-gray-500 
+           border border-primary-900/30 focus:outline-none focus:border-primary-500 
+           transition-all duration-200;
+    background: rgba(10, 25, 20, 0.8);
+  }
+
+  .input-dark:focus {
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.1);
+  }
+
+  /* Section headers */
+  .section-title {
+    @apply text-xl font-heading font-bold text-white mb-1;
+  }
+
+  .section-subtitle {
+    @apply text-sm text-gray-400;
+  }
+}
+
+/* ================================
+   CHART OVERRIDES
+   ================================ */
+@layer utilities {
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    stroke: rgba(45, 212, 191, 0.1);
+  }
+
+  .recharts-text {
+    fill: #94a3b8 !important;
+    font-size: 12px;
+  }
+}

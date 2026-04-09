@@ -1,0 +1,979 @@
+{
+  "metadata": {
+    "version": "2.0.0",
+    "sources": ["O*NET (US Dept of Labor)", "ESCO (European Skills Framework)"],
+    "total_skills": 180,
+    "last_updated": "2026-03-26"
+  },
+  "categories": {
+    "programming_languages": {
+      "display_name": "Programming Languages",
+      "skills": {
+        "python": {
+          "canonical": "python",
+          "synonyms": ["py", "python3", "python 3", "cpython"],
+          "category": "programming_languages",
+          "subcategory": "general_purpose",
+          "difficulty": "beginner",
+          "estimated_hours": 80,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 10
+        },
+        "java": {
+          "canonical": "java",
+          "synonyms": ["java se", "java ee", "core java", "j2ee", "jdk"],
+          "category": "programming_languages",
+          "subcategory": "general_purpose",
+          "difficulty": "intermediate",
+          "estimated_hours": 120,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 9
+        },
+        "javascript": {
+          "canonical": "javascript",
+          "synonyms": ["js", "ecmascript", "es6", "es2015", "vanilla js"],
+          "category": "programming_languages",
+          "subcategory": "web",
+          "difficulty": "beginner",
+          "estimated_hours": 60,
+          "prerequisites": ["html", "css"],
+          "onet_code": "15-1254.00",
+          "market_weight": 10
+        },
+        "typescript": {
+          "canonical": "typescript",
+          "synonyms": ["ts", "type script"],
+          "category": "programming_languages",
+          "subcategory": "web",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["javascript"],
+          "onet_code": "15-1254.00",
+          "market_weight": 9
+        },
+        "c++": {
+          "canonical": "c++",
+          "synonyms": ["cpp", "c plus plus", "cplusplus"],
+          "category": "programming_languages",
+          "subcategory": "systems",
+          "difficulty": "advanced",
+          "estimated_hours": 150,
+          "prerequisites": ["c"],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
+        },
+        "c": {
+          "canonical": "c",
+          "synonyms": ["c language", "ansi c"],
+          "category": "programming_languages",
+          "subcategory": "systems",
+          "difficulty": "intermediate",
+          "estimated_hours": 100,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 6
+        },
+        "c#": {
+          "canonical": "c#",
+          "synonyms": ["csharp", "c sharp", "c-sharp", "dotnet c#"],
+          "category": "programming_languages",
+          "subcategory": "general_purpose",
+          "difficulty": "intermediate",
+          "estimated_hours": 100,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
+        },
+        "go": {
+          "canonical": "go",
+          "synonyms": ["golang", "go lang"],
+          "category": "programming_languages",
+          "subcategory": "systems",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 8
+        },
+        "rust": {
+          "canonical": "rust",
+          "synonyms": ["rust lang", "rustlang"],
+          "category": "programming_languages",
+          "subcategory": "systems",
+          "difficulty": "advanced",
+          "estimated_hours": 160,
+          "prerequisites": ["c++"],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
+        },
+        "r": {
+          "canonical": "r",
+          "synonyms": ["r language", "r programming", "rstudio"],
+          "category": "programming_languages",
+          "subcategory": "data_science",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": [],
+          "onet_code": "15-2051.00",
+          "market_weight": 6
+        },
+        "kotlin": {
+          "canonical": "kotlin",
+          "synonyms": ["kt"],
+          "category": "programming_languages",
+          "subcategory": "mobile",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": ["java"],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
+        },
+        "swift": {
+          "canonical": "swift",
+          "synonyms": ["swift lang", "swiftui"],
+          "category": "programming_languages",
+          "subcategory": "mobile",
+          "difficulty": "intermediate",
+          "estimated_hours": 90,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 6
+        },
+        "php": {
+          "canonical": "php",
+          "synonyms": ["php7", "php8"],
+          "category": "programming_languages",
+          "subcategory": "web",
+          "difficulty": "beginner",
+          "estimated_hours": 60,
+          "prerequisites": ["html"],
+          "onet_code": "15-1254.00",
+          "market_weight": 5
+        },
+        "ruby": {
+          "canonical": "ruby",
+          "synonyms": ["ruby lang"],
+          "category": "programming_languages",
+          "subcategory": "web",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": [],
+          "onet_code": "15-1254.00",
+          "market_weight": 5
+        },
+        "scala": {
+          "canonical": "scala",
+          "synonyms": [],
+          "category": "programming_languages",
+          "subcategory": "data_engineering",
+          "difficulty": "advanced",
+          "estimated_hours": 120,
+          "prerequisites": ["java"],
+          "onet_code": "15-1252.00",
+          "market_weight": 6
+        }
+      }
+    },
+    "web_development": {
+      "display_name": "Web Development",
+      "skills": {
+        "html": {
+          "canonical": "html",
+          "synonyms": ["html5", "hypertext markup language"],
+          "category": "web_development",
+          "subcategory": "frontend",
+          "difficulty": "beginner",
+          "estimated_hours": 30,
+          "prerequisites": [],
+          "onet_code": "15-1254.00",
+          "market_weight": 5
+        },
+        "css": {
+          "canonical": "css",
+          "synonyms": ["css3", "cascading style sheets", "stylesheet"],
+          "category": "web_development",
+          "subcategory": "frontend",
+          "difficulty": "beginner",
+          "estimated_hours": 40,
+          "prerequisites": ["html"],
+          "onet_code": "15-1254.00",
+          "market_weight": 5
+        },
+        "react": {
+          "canonical": "react",
+          "synonyms": ["reactjs", "react.js", "react js"],
+          "category": "web_development",
+          "subcategory": "frontend_framework",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": ["javascript", "html", "css"],
+          "onet_code": "15-1254.00",
+          "market_weight": 10
+        },
+        "angular": {
+          "canonical": "angular",
+          "synonyms": ["angularjs", "angular.js", "angular 2+"],
+          "category": "web_development",
+          "subcategory": "frontend_framework",
+          "difficulty": "intermediate",
+          "estimated_hours": 100,
+          "prerequisites": ["javascript", "typescript"],
+          "onet_code": "15-1254.00",
+          "market_weight": 8
+        },
+        "vue": {
+          "canonical": "vue",
+          "synonyms": ["vuejs", "vue.js", "vue js"],
+          "category": "web_development",
+          "subcategory": "frontend_framework",
+          "difficulty": "intermediate",
+          "estimated_hours": 60,
+          "prerequisites": ["javascript"],
+          "onet_code": "15-1254.00",
+          "market_weight": 7
+        },
+        "node.js": {
+          "canonical": "node.js",
+          "synonyms": ["nodejs", "node js", "node"],
+          "category": "web_development",
+          "subcategory": "backend",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": ["javascript"],
+          "onet_code": "15-1254.00",
+          "market_weight": 9
+        },
+        "express": {
+          "canonical": "express",
+          "synonyms": ["expressjs", "express.js"],
+          "category": "web_development",
+          "subcategory": "backend",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["node.js"],
+          "onet_code": "15-1254.00",
+          "market_weight": 7
+        },
+        "django": {
+          "canonical": "django",
+          "synonyms": ["django framework"],
+          "category": "web_development",
+          "subcategory": "backend",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": ["python"],
+          "onet_code": "15-1254.00",
+          "market_weight": 7
+        },
+        "flask": {
+          "canonical": "flask",
+          "synonyms": ["flask framework"],
+          "category": "web_development",
+          "subcategory": "backend",
+          "difficulty": "beginner",
+          "estimated_hours": 40,
+          "prerequisites": ["python"],
+          "onet_code": "15-1254.00",
+          "market_weight": 6
+        },
+        "fastapi": {
+          "canonical": "fastapi",
+          "synonyms": ["fast api"],
+          "category": "web_development",
+          "subcategory": "backend",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["python"],
+          "onet_code": "15-1254.00",
+          "market_weight": 8
+        },
+        "next.js": {
+          "canonical": "next.js",
+          "synonyms": ["nextjs", "next js"],
+          "category": "web_development",
+          "subcategory": "fullstack",
+          "difficulty": "intermediate",
+          "estimated_hours": 60,
+          "prerequisites": ["react"],
+          "onet_code": "15-1254.00",
+          "market_weight": 9
+        },
+        "tailwind css": {
+          "canonical": "tailwind css",
+          "synonyms": ["tailwindcss", "tailwind"],
+          "category": "web_development",
+          "subcategory": "frontend",
+          "difficulty": "beginner",
+          "estimated_hours": 20,
+          "prerequisites": ["css"],
+          "onet_code": "15-1254.00",
+          "market_weight": 7
+        },
+        "bootstrap": {
+          "canonical": "bootstrap",
+          "synonyms": ["twitter bootstrap", "bootstrap css"],
+          "category": "web_development",
+          "subcategory": "frontend",
+          "difficulty": "beginner",
+          "estimated_hours": 15,
+          "prerequisites": ["css"],
+          "onet_code": "15-1254.00",
+          "market_weight": 5
+        },
+        "graphql": {
+          "canonical": "graphql",
+          "synonyms": ["graph ql"],
+          "category": "web_development",
+          "subcategory": "api",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["javascript"],
+          "onet_code": "15-1254.00",
+          "market_weight": 7
+        },
+        "rest api": {
+          "canonical": "rest api",
+          "synonyms": ["restful", "restful api", "rest", "api design"],
+          "category": "web_development",
+          "subcategory": "api",
+          "difficulty": "intermediate",
+          "estimated_hours": 30,
+          "prerequisites": [],
+          "onet_code": "15-1254.00",
+          "market_weight": 8
+        }
+      }
+    },
+    "data_science": {
+      "display_name": "Data Science & Analytics",
+      "skills": {
+        "data analysis": {
+          "canonical": "data analysis",
+          "synonyms": ["data analytics", "data analyst skills", "analytical skills"],
+          "category": "data_science",
+          "subcategory": "analytics",
+          "difficulty": "intermediate",
+          "estimated_hours": 100,
+          "prerequisites": ["python", "sql"],
+          "onet_code": "15-2051.00",
+          "market_weight": 9
+        },
+        "pandas": {
+          "canonical": "pandas",
+          "synonyms": ["python pandas"],
+          "category": "data_science",
+          "subcategory": "data_manipulation",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["python"],
+          "onet_code": "15-2051.00",
+          "market_weight": 8
+        },
+        "numpy": {
+          "canonical": "numpy",
+          "synonyms": ["python numpy", "np"],
+          "category": "data_science",
+          "subcategory": "numerical_computing",
+          "difficulty": "intermediate",
+          "estimated_hours": 30,
+          "prerequisites": ["python"],
+          "onet_code": "15-2051.00",
+          "market_weight": 7
+        },
+        "matplotlib": {
+          "canonical": "matplotlib",
+          "synonyms": ["pyplot", "plt"],
+          "category": "data_science",
+          "subcategory": "visualization",
+          "difficulty": "beginner",
+          "estimated_hours": 20,
+          "prerequisites": ["python", "numpy"],
+          "onet_code": "15-2051.00",
+          "market_weight": 5
+        },
+        "data visualization": {
+          "canonical": "data visualization",
+          "synonyms": ["data viz", "visualization", "dashboarding"],
+          "category": "data_science",
+          "subcategory": "visualization",
+          "difficulty": "intermediate",
+          "estimated_hours": 60,
+          "prerequisites": ["data analysis"],
+          "onet_code": "15-2051.00",
+          "market_weight": 7
+        },
+        "statistics": {
+          "canonical": "statistics",
+          "synonyms": ["statistical analysis", "descriptive statistics", "inferential statistics"],
+          "category": "data_science",
+          "subcategory": "foundations",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": [],
+          "onet_code": "15-2051.00",
+          "market_weight": 7
+        },
+        "power bi": {
+          "canonical": "power bi",
+          "synonyms": ["powerbi", "microsoft power bi"],
+          "category": "data_science",
+          "subcategory": "visualization",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["data analysis"],
+          "onet_code": "15-2051.00",
+          "market_weight": 7
+        },
+        "tableau": {
+          "canonical": "tableau",
+          "synonyms": ["tableau desktop", "tableau public"],
+          "category": "data_science",
+          "subcategory": "visualization",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["data analysis"],
+          "onet_code": "15-2051.00",
+          "market_weight": 7
+        },
+        "excel": {
+          "canonical": "excel",
+          "synonyms": ["microsoft excel", "ms excel", "spreadsheet"],
+          "category": "data_science",
+          "subcategory": "tools",
+          "difficulty": "beginner",
+          "estimated_hours": 20,
+          "prerequisites": [],
+          "onet_code": "15-2051.00",
+          "market_weight": 5
+        },
+        "scipy": {
+          "canonical": "scipy",
+          "synonyms": ["scientific python"],
+          "category": "data_science",
+          "subcategory": "numerical_computing",
+          "difficulty": "intermediate",
+          "estimated_hours": 30,
+          "prerequisites": ["numpy"],
+          "onet_code": "15-2051.00",
+          "market_weight": 5
+        },
+        "big data": {
+          "canonical": "big data",
+          "synonyms": ["big data analytics", "large scale data"],
+          "category": "data_science",
+          "subcategory": "infrastructure",
+          "difficulty": "advanced",
+          "estimated_hours": 120,
+          "prerequisites": ["data analysis", "sql"],
+          "onet_code": "15-2051.00",
+          "market_weight": 8
+        },
+        "apache spark": {
+          "canonical": "apache spark",
+          "synonyms": ["spark", "pyspark"],
+          "category": "data_science",
+          "subcategory": "infrastructure",
+          "difficulty": "advanced",
+          "estimated_hours": 100,
+          "prerequisites": ["python", "big data"],
+          "onet_code": "15-2051.00",
+          "market_weight": 8
+        },
+        "hadoop": {
+          "canonical": "hadoop",
+          "synonyms": ["apache hadoop", "hdfs", "mapreduce"],
+          "category": "data_science",
+          "subcategory": "infrastructure",
+          "difficulty": "advanced",
+          "estimated_hours": 80,
+          "prerequisites": ["big data"],
+          "onet_code": "15-2051.00",
+          "market_weight": 5
+        }
+      }
+    },
+    "machine_learning_ai": {
+      "display_name": "Machine Learning & AI",
+      "skills": {
+        "machine learning": {
+          "canonical": "machine learning",
+          "synonyms": ["ml", "machine learning algorithms", "supervised learning", "unsupervised learning"],
+          "category": "machine_learning_ai",
+          "subcategory": "core",
+          "difficulty": "intermediate",
+          "estimated_hours": 150,
+          "prerequisites": ["python", "statistics", "numpy"],
+          "onet_code": "15-2051.00",
+          "market_weight": 10
+        },
+        "deep learning": {
+          "canonical": "deep learning",
+          "synonyms": ["dl", "neural networks", "deep neural networks"],
+          "category": "machine_learning_ai",
+          "subcategory": "advanced",
+          "difficulty": "advanced",
+          "estimated_hours": 200,
+          "prerequisites": ["machine learning", "python"],
+          "onet_code": "15-2051.00",
+          "market_weight": 10
+        },
+        "tensorflow": {
+          "canonical": "tensorflow",
+          "synonyms": ["tf", "tensorflow 2", "tf2"],
+          "category": "machine_learning_ai",
+          "subcategory": "framework",
+          "difficulty": "advanced",
+          "estimated_hours": 100,
+          "prerequisites": ["deep learning", "python"],
+          "onet_code": "15-2051.00",
+          "market_weight": 9
+        },
+        "pytorch": {
+          "canonical": "pytorch",
+          "synonyms": ["torch", "py torch"],
+          "category": "machine_learning_ai",
+          "subcategory": "framework",
+          "difficulty": "advanced",
+          "estimated_hours": 100,
+          "prerequisites": ["deep learning", "python"],
+          "onet_code": "15-2051.00",
+          "market_weight": 9
+        },
+        "scikit-learn": {
+          "canonical": "scikit-learn",
+          "synonyms": ["sklearn", "scikit learn", "sci-kit learn", "sk-learn"],
+          "category": "machine_learning_ai",
+          "subcategory": "framework",
+          "difficulty": "intermediate",
+          "estimated_hours": 60,
+          "prerequisites": ["python", "machine learning"],
+          "onet_code": "15-2051.00",
+          "market_weight": 8
+        },
+        "nlp": {
+          "canonical": "nlp",
+          "synonyms": ["natural language processing", "text mining", "text analytics", "computational linguistics"],
+          "category": "machine_learning_ai",
+          "subcategory": "specialization",
+          "difficulty": "advanced",
+          "estimated_hours": 150,
+          "prerequisites": ["machine learning", "python"],
+          "onet_code": "15-2051.00",
+          "market_weight": 9
+        },
+        "computer vision": {
+          "canonical": "computer vision",
+          "synonyms": ["cv", "image recognition", "image processing", "opencv"],
+          "category": "machine_learning_ai",
+          "subcategory": "specialization",
+          "difficulty": "advanced",
+          "estimated_hours": 150,
+          "prerequisites": ["deep learning"],
+          "onet_code": "15-2051.00",
+          "market_weight": 8
+        },
+        "generative ai": {
+          "canonical": "generative ai",
+          "synonyms": ["gen ai", "genai", "llm", "large language models", "gpt"],
+          "category": "machine_learning_ai",
+          "subcategory": "specialization",
+          "difficulty": "advanced",
+          "estimated_hours": 100,
+          "prerequisites": ["deep learning", "nlp"],
+          "onet_code": "15-2051.00",
+          "market_weight": 10
+        },
+        "reinforcement learning": {
+          "canonical": "reinforcement learning",
+          "synonyms": ["rl", "reward learning"],
+          "category": "machine_learning_ai",
+          "subcategory": "specialization",
+          "difficulty": "advanced",
+          "estimated_hours": 120,
+          "prerequisites": ["machine learning"],
+          "onet_code": "15-2051.00",
+          "market_weight": 6
+        },
+        "xgboost": {
+          "canonical": "xgboost",
+          "synonyms": ["gradient boosting", "gbm"],
+          "category": "machine_learning_ai",
+          "subcategory": "algorithm",
+          "difficulty": "intermediate",
+          "estimated_hours": 30,
+          "prerequisites": ["machine learning"],
+          "onet_code": "15-2051.00",
+          "market_weight": 7
+        },
+        "keras": {
+          "canonical": "keras",
+          "synonyms": [],
+          "category": "machine_learning_ai",
+          "subcategory": "framework",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["deep learning", "python"],
+          "onet_code": "15-2051.00",
+          "market_weight": 7
+        },
+        "huggingface": {
+          "canonical": "huggingface",
+          "synonyms": ["hugging face", "hf", "transformers library"],
+          "category": "machine_learning_ai",
+          "subcategory": "framework",
+          "difficulty": "advanced",
+          "estimated_hours": 60,
+          "prerequisites": ["nlp", "pytorch"],
+          "onet_code": "15-2051.00",
+          "market_weight": 9
+        },
+        "mlops": {
+          "canonical": "mlops",
+          "synonyms": ["ml ops", "machine learning operations", "ml engineering"],
+          "category": "machine_learning_ai",
+          "subcategory": "operations",
+          "difficulty": "advanced",
+          "estimated_hours": 100,
+          "prerequisites": ["machine learning", "docker"],
+          "onet_code": "15-2051.00",
+          "market_weight": 8
+        }
+      }
+    },
+    "databases": {
+      "display_name": "Databases",
+      "skills": {
+        "sql": {
+          "canonical": "sql",
+          "synonyms": ["structured query language", "sql queries"],
+          "category": "databases",
+          "subcategory": "relational",
+          "difficulty": "beginner",
+          "estimated_hours": 40,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 9
+        },
+        "mysql": {
+          "canonical": "mysql",
+          "synonyms": ["my sql"],
+          "category": "databases",
+          "subcategory": "relational",
+          "difficulty": "beginner",
+          "estimated_hours": 30,
+          "prerequisites": ["sql"],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
+        },
+        "postgresql": {
+          "canonical": "postgresql",
+          "synonyms": ["postgres", "psql", "pg"],
+          "category": "databases",
+          "subcategory": "relational",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["sql"],
+          "onet_code": "15-1252.00",
+          "market_weight": 8
+        },
+        "mongodb": {
+          "canonical": "mongodb",
+          "synonyms": ["mongo", "mongo db"],
+          "category": "databases",
+          "subcategory": "nosql",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 8
+        },
+        "redis": {
+          "canonical": "redis",
+          "synonyms": [],
+          "category": "databases",
+          "subcategory": "cache",
+          "difficulty": "intermediate",
+          "estimated_hours": 20,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
+        },
+        "firebase": {
+          "canonical": "firebase",
+          "synonyms": ["google firebase"],
+          "category": "databases",
+          "subcategory": "cloud",
+          "difficulty": "beginner",
+          "estimated_hours": 30,
+          "prerequisites": ["javascript"],
+          "onet_code": "15-1252.00",
+          "market_weight": 6
+        },
+        "elasticsearch": {
+          "canonical": "elasticsearch",
+          "synonyms": ["elastic search", "elk"],
+          "category": "databases",
+          "subcategory": "search",
+          "difficulty": "advanced",
+          "estimated_hours": 60,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 6
+        },
+        "sqlite": {
+          "canonical": "sqlite",
+          "synonyms": ["sqlite3"],
+          "category": "databases",
+          "subcategory": "relational",
+          "difficulty": "beginner",
+          "estimated_hours": 10,
+          "prerequisites": ["sql"],
+          "onet_code": "15-1252.00",
+          "market_weight": 4
+        }
+      }
+    },
+    "cloud_devops": {
+      "display_name": "Cloud & DevOps",
+      "skills": {
+        "aws": {
+          "canonical": "aws",
+          "synonyms": ["amazon web services", "amazon aws"],
+          "category": "cloud_devops",
+          "subcategory": "cloud",
+          "difficulty": "intermediate",
+          "estimated_hours": 120,
+          "prerequisites": [],
+          "onet_code": "15-1244.00",
+          "market_weight": 10
+        },
+        "azure": {
+          "canonical": "azure",
+          "synonyms": ["microsoft azure", "ms azure"],
+          "category": "cloud_devops",
+          "subcategory": "cloud",
+          "difficulty": "intermediate",
+          "estimated_hours": 100,
+          "prerequisites": [],
+          "onet_code": "15-1244.00",
+          "market_weight": 9
+        },
+        "gcp": {
+          "canonical": "gcp",
+          "synonyms": ["google cloud", "google cloud platform"],
+          "category": "cloud_devops",
+          "subcategory": "cloud",
+          "difficulty": "intermediate",
+          "estimated_hours": 100,
+          "prerequisites": [],
+          "onet_code": "15-1244.00",
+          "market_weight": 8
+        },
+        "docker": {
+          "canonical": "docker",
+          "synonyms": ["containerization", "docker containers"],
+          "category": "cloud_devops",
+          "subcategory": "containers",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["linux"],
+          "onet_code": "15-1244.00",
+          "market_weight": 9
+        },
+        "kubernetes": {
+          "canonical": "kubernetes",
+          "synonyms": ["k8s", "container orchestration"],
+          "category": "cloud_devops",
+          "subcategory": "containers",
+          "difficulty": "advanced",
+          "estimated_hours": 80,
+          "prerequisites": ["docker"],
+          "onet_code": "15-1244.00",
+          "market_weight": 9
+        },
+        "ci/cd": {
+          "canonical": "ci/cd",
+          "synonyms": ["continuous integration", "continuous deployment", "jenkins", "github actions"],
+          "category": "cloud_devops",
+          "subcategory": "automation",
+          "difficulty": "intermediate",
+          "estimated_hours": 40,
+          "prerequisites": ["git"],
+          "onet_code": "15-1244.00",
+          "market_weight": 8
+        },
+        "git": {
+          "canonical": "git",
+          "synonyms": ["github", "gitlab", "version control", "git version control"],
+          "category": "cloud_devops",
+          "subcategory": "version_control",
+          "difficulty": "beginner",
+          "estimated_hours": 15,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 8
+        },
+        "linux": {
+          "canonical": "linux",
+          "synonyms": ["unix", "bash", "shell scripting", "command line"],
+          "category": "cloud_devops",
+          "subcategory": "os",
+          "difficulty": "intermediate",
+          "estimated_hours": 60,
+          "prerequisites": [],
+          "onet_code": "15-1244.00",
+          "market_weight": 8
+        },
+        "terraform": {
+          "canonical": "terraform",
+          "synonyms": ["infrastructure as code", "iac"],
+          "category": "cloud_devops",
+          "subcategory": "iac",
+          "difficulty": "advanced",
+          "estimated_hours": 60,
+          "prerequisites": ["aws"],
+          "onet_code": "15-1244.00",
+          "market_weight": 8
+        }
+      }
+    },
+    "cybersecurity": {
+      "display_name": "Cybersecurity",
+      "skills": {
+        "cybersecurity": {
+          "canonical": "cybersecurity",
+          "synonyms": ["information security", "infosec", "cyber security"],
+          "category": "cybersecurity",
+          "subcategory": "general",
+          "difficulty": "intermediate",
+          "estimated_hours": 120,
+          "prerequisites": ["linux", "networking"],
+          "onet_code": "15-1212.00",
+          "market_weight": 9
+        },
+        "networking": {
+          "canonical": "networking",
+          "synonyms": ["computer networking", "network engineering", "tcp/ip"],
+          "category": "cybersecurity",
+          "subcategory": "infrastructure",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": [],
+          "onet_code": "15-1241.00",
+          "market_weight": 7
+        },
+        "ethical hacking": {
+          "canonical": "ethical hacking",
+          "synonyms": ["penetration testing", "pen testing", "pentest"],
+          "category": "cybersecurity",
+          "subcategory": "offensive",
+          "difficulty": "advanced",
+          "estimated_hours": 150,
+          "prerequisites": ["cybersecurity", "linux"],
+          "onet_code": "15-1212.00",
+          "market_weight": 7
+        }
+      }
+    },
+    "mobile_development": {
+      "display_name": "Mobile Development",
+      "skills": {
+        "react native": {
+          "canonical": "react native",
+          "synonyms": ["react-native", "rn"],
+          "category": "mobile_development",
+          "subcategory": "cross_platform",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": ["react", "javascript"],
+          "onet_code": "15-1252.00",
+          "market_weight": 8
+        },
+        "flutter": {
+          "canonical": "flutter",
+          "synonyms": ["flutter sdk", "dart flutter"],
+          "category": "mobile_development",
+          "subcategory": "cross_platform",
+          "difficulty": "intermediate",
+          "estimated_hours": 80,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 8
+        },
+        "android": {
+          "canonical": "android",
+          "synonyms": ["android development", "android sdk"],
+          "category": "mobile_development",
+          "subcategory": "native",
+          "difficulty": "intermediate",
+          "estimated_hours": 100,
+          "prerequisites": ["kotlin"],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
+        },
+        "ios": {
+          "canonical": "ios",
+          "synonyms": ["ios development", "iphone development"],
+          "category": "mobile_development",
+          "subcategory": "native",
+          "difficulty": "intermediate",
+          "estimated_hours": 100,
+          "prerequisites": ["swift"],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
+        }
+      }
+    },
+    "tools_platforms": {
+      "display_name": "Tools & Platforms",
+      "skills": {
+        "jira": {
+          "canonical": "jira",
+          "synonyms": ["atlassian jira"],
+          "category": "tools_platforms",
+          "subcategory": "project_management",
+          "difficulty": "beginner",
+          "estimated_hours": 10,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 5
+        },
+        "agile": {
+          "canonical": "agile",
+          "synonyms": ["agile methodology", "scrum", "kanban", "agile development"],
+          "category": "tools_platforms",
+          "subcategory": "methodology",
+          "difficulty": "beginner",
+          "estimated_hours": 20,
+          "prerequisites": [],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
+        },
+        "figma": {
+          "canonical": "figma",
+          "synonyms": ["figma design"],
+          "category": "tools_platforms",
+          "subcategory": "design",
+          "difficulty": "beginner",
+          "estimated_hours": 30,
+          "prerequisites": [],
+          "onet_code": "15-1255.00",
+          "market_weight": 6
+        },
+        "postman": {
+          "canonical": "postman",
+          "synonyms": ["api testing"],
+          "category": "tools_platforms",
+          "subcategory": "testing",
+          "difficulty": "beginner",
+          "estimated_hours": 10,
+          "prerequisites": ["rest api"],
+          "onet_code": "15-1253.00",
+          "market_weight": 5
+        }
+      }
+    }
+  }
+}

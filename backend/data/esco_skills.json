@@ -1,0 +1,32 @@
+{
+  "source": "European Skills, Competences, Qualifications and Occupations (ESCO)",
+  "version": "1.1.1",
+  "url": "https://esco.ec.europa.eu/",
+  "skill_pillars": {
+    "S1": {"name": "Communication, collaboration and creativity", "count": 45},
+    "S2": {"name": "Information skills", "count": 32},
+    "S3": {"name": "Assisting and caring", "count": 28},
+    "S4": {"name": "Management skills", "count": 55},
+    "S5": {"name": "Working with computers", "count": 85},
+    "S6": {"name": "Handling and moving", "count": 15},
+    "S7": {"name": "Constructing", "count": 20}
+  },
+  "digital_skills": {
+    "S5.1": {"name": "Use of digital tools for collaboration, content creation and problem solving", "skills": ["cloud computing", "data management", "digital marketing", "programming"]},
+    "S5.2": {"name": "Software development and scripting", "skills": ["python", "java", "javascript", "c++", "sql"]},
+    "S5.3": {"name": "Database management and design", "skills": ["sql", "postgresql", "mongodb", "redis"]},
+    "S5.4": {"name": "Network and system administration", "skills": ["linux", "networking", "docker", "kubernetes"]},
+    "S5.5": {"name": "Web and multimedia development", "skills": ["html", "css", "react", "angular", "vue"]},
+    "S5.6": {"name": "Data science and AI", "skills": ["machine learning", "deep learning", "nlp", "data analysis", "statistics"]},
+    "S5.7": {"name": "Cybersecurity", "skills": ["cybersecurity", "ethical hacking", "networking"]}
+  },
+  "cross_mapping": {
+    "esco_to_onet": {
+      "S5.2": ["15-1252.00"],
+      "S5.3": ["15-1252.00"],
+      "S5.5": ["15-1254.00"],
+      "S5.6": ["15-2051.00"],
+      "S5.7": ["15-1212.00"]
+    }
+  }
+}
