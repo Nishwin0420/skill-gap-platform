@@ -247,7 +247,7 @@ def comparative_analysis(data: ComparativeRequest):
 # ANALYSIS HISTORY (MULTI-USER)
 # ====================================
 @router.get("/history")
-def get_analysis_history(limit: int = 50):
+def get_analysis_history(limit: int = 200):
     """
     Get past analysis history for viewing in History dashboard.
     Returns all stored analyses with key metrics.

@@ -36,10 +36,31 @@ function MarketTrends() {
           postgresql: 6.8, "deep learning": 6.5, kubernetes: 6.3,
           git: 6.0, "data analysis": 5.8, java: 5.5,
         },
-        trending_skills: Array.from({ length: 85 }).reduce((acc, _, i) => {
-          acc[`Skill ${i + 1}`] = { growth_rate: Math.floor(Math.random() * 80) + 10, trend: "Rising", recent_count: Math.floor(Math.random() * 300) };
-          return acc;
-        }, {}),
+        trending_skills: (() => {
+          const skillNames = [
+            "Python", "Machine Learning", "React", "JavaScript", "Docker",
+            "AWS", "SQL", "Node.js", "TypeScript", "PostgreSQL",
+            "Deep Learning", "Kubernetes", "Git", "Data Analysis", "Java",
+            "TensorFlow", "PyTorch", "Generative AI", "Azure", "GCP",
+            "Pandas", "Next.js", "FastAPI", "Redis", "MongoDB",
+            "Terraform", "CI/CD", "Linux", "Bash", "Go",
+            "GraphQL", "REST API", "Agile", "Scrum", "Jira",
+            "MLOps", "NLP", "Computer Vision", "Large Language Models", "SHAP",
+            "Apache Spark", "Hadoop", "Power BI", "Tableau", "Excel",
+            "Scikit-learn", "HuggingFace", "LangChain", "OpenAI", "Vector DB",
+            "Flask", "Django", "Spring Boot", "Microservices", "gRPC",
+            "ElasticSearch", "Kafka", "Airflow", "dbt", "Snowflake",
+            "Scala", "Rust", "Swift", "Kotlin", "Flutter",
+            "React Native", "Angular", "Vue.js", "GraphQL", "Webpack",
+            "Jest", "Selenium", "Postman", "Cypress", "GitHub Actions",
+            "Jenkins", "Ansible", "Prometheus", "Grafana", "DataDog",
+            "Networking", "Cybersecurity", "Ethical Hacking", "Blockchain", "Web3",
+          ];
+          return skillNames.reduce((acc, name, i) => {
+            acc[name] = { growth_rate: Math.max(5, 90 - i * 1.1 + Math.floor(Math.random() * 12)), trend: i < 30 ? "Rising" : "Stable", recent_count: Math.floor(Math.random() * 300) + 20 };
+            return acc;
+          }, {});
+        })(),
         market_summary: {
           total_job_postings: 2000,
           unique_roles: 15,

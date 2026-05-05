@@ -136,7 +136,7 @@ def get_dashboard_stats(db: Session):
 # ====================================
 # HISTORY QUERIES
 # ====================================
-def get_all_analyses(db: Session, limit=50):
+def get_all_analyses(db: Session, limit=200):
     """Get all analyses for history page, ordered by most recent."""
     return (
         db.query(AnalysisHistory)

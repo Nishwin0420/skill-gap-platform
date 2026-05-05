@@ -24,7 +24,7 @@ function HistoryPage() {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
     try {
-      const response = await axios.get(`${API_BASE}/history?limit=50`);
+      const response = await axios.get(`${API_BASE}/history?limit=200`);
       setHistory(response.data.history || []);
       setStats(response.data.aggregated_stats || null);
     } catch (error) {

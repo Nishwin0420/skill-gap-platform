@@ -32,10 +32,10 @@ function Dashboard() {
           average_employability_score: 0,
         },
         market_overview: {
-          total_job_postings: 610371,
-          unique_roles: 82,
-          unique_companies: 100,
-          regions_covered: 10,
+          total_job_postings: 2000,
+          unique_roles: 15,
+          unique_companies: 20,
+          regions_covered: 5,
         },
         recent_trends: {
           // ── Core Programming Languages ─────────────────────────
