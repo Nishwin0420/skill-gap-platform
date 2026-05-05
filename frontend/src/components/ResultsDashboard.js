@@ -11,6 +11,7 @@ import {
   FiClock, FiUsers, FiEdit, FiClipboard, FiAlertTriangle, FiAward, FiFileText, FiChevronDown, FiChevronUp, FiStar
 } from "react-icons/fi";
 import { toTitleCase } from "../utils/stringUtils";
+import ComparativeAnalytics from "./ComparativeAnalytics";
 
 function ResultsDashboard({ result }) {
   const [copiedIdx, setCopiedIdx] = useState(null);
@@ -856,6 +857,11 @@ function ResultsDashboard({ result }) {
           </div>
         </motion.div>
       )}
+
+      {/* ─── FEATURE 4: Comparative Analytics ─── */}
+      <div className="mt-8">
+        <ComparativeAnalytics result={result} />
+      </div>
 
       {/* Models Used Footer */}
       <div className="glass-card p-4">
