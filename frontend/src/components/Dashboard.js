@@ -257,7 +257,7 @@ function Dashboard() {
             {showAllSkills ? `All ${allSkillEntries.length}` : "Top 10"} skills
           </span>
         </div>
-        <p className="section-subtitle mb-4">Based on 2000+ job postings analysis</p>
+        <p className="section-subtitle mb-4">Based on 5000+ job postings analysis</p>
 
         <div className="space-y-3">
           <AnimatePresence initial={false}>

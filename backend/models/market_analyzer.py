@@ -223,7 +223,7 @@ class MarketAnalyzer:
         records = []
         base_date = datetime(2025, 1, 1)
 
-        for i in range(2000):
+        for i in range(5000):
             role = np.random.choice(roles)
             company = np.random.choice(companies)
             region = np.random.choice(regions, p=[0.4, 0.25, 0.15, 0.1, 0.1])
