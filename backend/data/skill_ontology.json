@@ -806,7 +806,7 @@
         },
         "git": {
           "canonical": "git",
-          "synonyms": ["github", "gitlab", "version control", "git version control"],
+          "synonyms": ["version control", "git version control"],
           "category": "cloud_devops",
           "subcategory": "version_control",
           "difficulty": "beginner",
@@ -814,6 +814,17 @@
           "prerequisites": [],
           "onet_code": "15-1252.00",
           "market_weight": 8
+        },
+        "github": {
+          "canonical": "github",
+          "synonyms": ["gitlab", "bitbucket", "github actions"],
+          "category": "cloud_devops",
+          "subcategory": "version_control",
+          "difficulty": "beginner",
+          "estimated_hours": 10,
+          "prerequisites": ["git"],
+          "onet_code": "15-1252.00",
+          "market_weight": 7
         },
         "linux": {
           "canonical": "linux",

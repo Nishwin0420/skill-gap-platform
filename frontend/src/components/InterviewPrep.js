@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FiMessageSquare, FiSearch, FiTarget, FiBook,
-  FiCheckCircle, FiAlertTriangle, FiClock, FiStar
+  FiCheckCircle, FiAlertTriangle, FiClock, FiStar, FiZap
 } from "react-icons/fi";
+import { toTitleCase } from "../utils/stringUtils";
 import axios from "axios";
 import API_BASE from "../config/api";
 
@@ -13,6 +14,7 @@ function InterviewPrep({ result }) {
   const [skills, setSkills] = useState("");
   const [jobSkills, setJobSkills] = useState("");
   const [targetRole, setTargetRole] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
   const [activeTab, setActiveTab] = useState("your_skills");
 
   const handleGenerate = async () => {
@@ -34,7 +36,8 @@ function InterviewPrep({ result }) {
       const response = await axios.post(`${API_BASE}/interview-prep`, {
         user_skills: userList,
         job_skills: jobList,
-        target_role: targetRole || null
+        target_role: targetRole || null,
+        job_description: jobDescription || null,
       });
       setPrepData(response.data);
     } catch (error) {
@@ -42,18 +45,19 @@ function InterviewPrep({ result }) {
       setPrepData({
         target_role: targetRole || "ML Engineer",
         total_questions: 18,
+        ai_generated: false,
         technical_questions: {
           your_skills: [
-            { q: "What are Python decorators? Explain with an example.", level: "intermediate", type: "technical" },
-            { q: "Explain the difference between list, tuple, and set in Python.", level: "beginner", type: "technical" },
-            { q: "What is the difference between INNER JOIN and LEFT JOIN?", level: "beginner", type: "technical" },
-            { q: "Explain indexing in databases and when to use it.", level: "intermediate", type: "technical" },
+            { q: "What are Python decorators? Explain with an example.", level: "intermediate", type: "technical", source: "curated" },
+            { q: "Explain the difference between list, tuple, and set in Python.", level: "beginner", type: "technical", source: "curated" },
+            { q: "What is the difference between INNER JOIN and LEFT JOIN?", level: "beginner", type: "technical", source: "curated" },
+            { q: "Explain indexing in databases and when to use it.", level: "intermediate", type: "technical", source: "curated" },
           ],
           gap_skills: [
-            { q: "What is the bias-variance tradeoff?", level: "intermediate", type: "technical" },
-            { q: "Explain supervised vs unsupervised learning.", level: "beginner", type: "technical" },
-            { q: "What is Docker and how is it different from a VM?", level: "beginner", type: "technical" },
-            { q: "What are the key AWS services for deploying?", level: "beginner", type: "technical" },
+            { q: "What is the bias-variance tradeoff?", level: "intermediate", type: "technical", source: "curated" },
+            { q: "Explain supervised vs unsupervised learning.", level: "beginner", type: "technical", source: "curated" },
+            { q: "What is Docker and how is it different from a VM?", level: "beginner", type: "technical", source: "curated" },
+            { q: "What are the key AWS services for deploying?", level: "beginner", type: "technical", source: "curated" },
           ]
         },
         behavioral_questions: [
@@ -62,17 +66,16 @@ function InterviewPrep({ result }) {
           { q: "Describe a situation where you learned a new technology quickly.", level: "all", type: "behavioral" },
         ],
         preparation_tips: [
-          "💪 You'll likely be tested on: python, sql. Prepare deep examples.",
-          "⚠️ Be ready to explain how you'd learn: machine learning, docker",
-          "💡 Frame skill gaps positively: 'I'm currently learning X through Y'",
-          "📝 Prepare 2-3 project examples demonstrating your technical skills",
-          "🎯 Research the company's tech stack and recent projects",
+          "You'll likely be tested on: python, sql. Prepare deep examples.",
+          "Be ready to explain how you'd learn: machine learning, docker",
+          "Frame skill gaps positively: 'I'm currently learning X through Y'",
+          "Prepare 2-3 project examples demonstrating your technical skills",
+          "Research the company's tech stack and recent projects",
         ],
         study_plan: {
           priority_topics: [
             { skill: "machine learning", difficulty: "intermediate", suggested_prep_hours: 20, focus: "Learn fundamentals + prepare 2 interview answers" },
             { skill: "docker", difficulty: "intermediate", suggested_prep_hours: 8, focus: "Learn basics + containerization concepts" },
-            { skill: "aws", difficulty: "intermediate", suggested_prep_hours: 15, focus: "Learn core services (EC2, S3, Lambda)" },
           ],
           estimated_prep_days: 10
         },
@@ -122,6 +125,19 @@ function InterviewPrep({ result }) {
           <label className="text-sm text-gray-400 mb-1 block">Target Role (Optional)</label>
           <input type="text" className="input-dark" placeholder="e.g., ML Engineer" value={targetRole} onChange={(e) => setTargetRole(e.target.value)} />
         </div>
+        {/* NEW: Job Description for Groq AI */}
+        <div>
+          <label className="text-sm text-gray-400 mb-1 flex items-center gap-2">
+            <FiZap className="text-amber-400" size={12} />
+            Job Description <span className="text-xs text-amber-400 font-medium">(Paste for AI-Generated Questions)</span>
+          </label>
+          <textarea
+            className="input-dark w-full h-28 resize-none text-sm"
+            placeholder="Paste the full job description here to unlock Groq AI-powered, role-specific interview questions..."
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+          />
+        </div>
         <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} className="btn-primary flex items-center gap-2" onClick={handleGenerate} disabled={loading}>
           {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <><FiSearch /> Generate Interview Prep</>}
         </motion.button>
@@ -129,6 +145,19 @@ function InterviewPrep({ result }) {
 
       {prepData && (
         <>
+          {/* AI Generated Banner */}
+          {prepData.ai_generated && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-amber-700/40 bg-amber-900/10"
+            >
+              <FiZap className="text-amber-400" size={16} />
+              <span className="text-sm font-semibold text-amber-300">AI-Generated Questions</span>
+              <span className="text-xs text-gray-400">— Powered by Groq ({prepData.ai_model || 'llama3'}) using your Job Description</span>
+            </motion.div>
+          )}
+
           {/* Summary Cards */}
           <div className="grid grid-cols-3 gap-4">
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-4 text-center">
@@ -148,12 +177,12 @@ function InterviewPrep({ result }) {
           {/* Strength/Weakness Tags */}
           <div className="grid grid-cols-2 gap-4">
             <div className="glass-card p-4">
-              <h4 className="text-sm font-semibold text-emerald-400 mb-2">✅ Confidence Areas</h4>
-              <div className="flex flex-wrap gap-2">{(prepData.confidence_areas || []).map((s, i) => <span key={i} className="skill-tag-matched capitalize">{s}</span>)}</div>
+              <h4 className="text-sm font-semibold text-emerald-400 mb-2 flex items-center gap-1"><FiCheckCircle size={14} /> Confidence Areas</h4>
+              <div className="flex flex-wrap gap-2">{(prepData.confidence_areas || []).map((s, i) => <span key={i} className="skill-tag-matched capitalize">{toTitleCase(s)}</span>)}</div>
             </div>
             <div className="glass-card p-4">
-              <h4 className="text-sm font-semibold text-red-400 mb-2">⚠️ Weak Areas</h4>
-              <div className="flex flex-wrap gap-2">{(prepData.weak_areas || []).map((s, i) => <span key={i} className="skill-tag-missing capitalize">{s}</span>)}</div>
+              <h4 className="text-sm font-semibold text-red-400 mb-2 flex items-center gap-1"><FiAlertTriangle size={14} /> Weak Areas</h4>
+              <div className="flex flex-wrap gap-2">{(prepData.weak_areas || []).map((s, i) => <span key={i} className="skill-tag-missing capitalize">{toTitleCase(s)}</span>)}</div>
             </div>
           </div>
 
@@ -192,9 +221,20 @@ function InterviewPrep({ result }) {
                 >
                   <div className="flex items-start justify-between">
                     <p className="text-gray-200 text-sm flex-1 mr-4">{item.q}</p>
-                    <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${getDifficultyStyle(item.level)}`}>
-                      {item.level}
-                    </span>
+                    <div className="flex flex-col items-end gap-1 shrink-0">
+                      <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${getDifficultyStyle(item.level)}`}>
+                        {item.level}
+                      </span>
+                      {item.source === "ai" ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-amber-900/20 text-amber-400 border border-amber-700/30 flex items-center gap-1">
+                          <FiZap size={9} /> AI
+                        </span>
+                      ) : item.source === "curated" ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-gray-800/40 text-gray-500 border border-gray-700/30 flex items-center gap-1">
+                          <FiBook size={9} /> Curated
+                        </span>
+                      ) : null}
+                    </div>
                   </div>
                 </motion.div>
               ))}

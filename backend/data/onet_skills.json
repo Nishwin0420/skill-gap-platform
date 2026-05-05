@@ -3,25 +3,291 @@
   "version": "28.1",
   "url": "https://www.onetonline.org/",
   "occupation_codes": {
-    "15-1252.00": {"title": "Software Developers", "category": "Computer and Mathematical"},
-    "15-1254.00": {"title": "Web Developers", "category": "Computer and Mathematical"},
-    "15-2051.00": {"title": "Data Scientists", "category": "Computer and Mathematical"},
-    "15-1244.00": {"title": "Network and Computer Systems Administrators", "category": "Computer and Mathematical"},
-    "15-1212.00": {"title": "Information Security Analysts", "category": "Computer and Mathematical"},
-    "15-1241.00": {"title": "Computer Network Architects", "category": "Computer and Mathematical"},
-    "15-1253.00": {"title": "Software Quality Assurance Analysts", "category": "Computer and Mathematical"},
-    "15-1255.00": {"title": "Web and Digital Interface Designers", "category": "Computer and Mathematical"}
+    "15-1252.00": {
+      "title": "Software Developers",
+      "category": "Computer and Mathematical"
+    },
+    "15-1254.00": {
+      "title": "Web Developers",
+      "category": "Computer and Mathematical"
+    },
+    "15-2051.00": {
+      "title": "Data Scientists",
+      "category": "Computer and Mathematical"
+    },
+    "15-1244.00": {
+      "title": "Network and Computer Systems Administrators",
+      "category": "Computer and Mathematical"
+    },
+    "15-1212.00": {
+      "title": "Information Security Analysts",
+      "category": "Computer and Mathematical"
+    },
+    "15-1241.00": {
+      "title": "Computer Network Architects",
+      "category": "Computer and Mathematical"
+    },
+    "15-1253.00": {
+      "title": "Software Quality Assurance Analysts",
+      "category": "Computer and Mathematical"
+    },
+    "15-1255.00": {
+      "title": "Web and Digital Interface Designers",
+      "category": "Computer and Mathematical"
+    }
   },
   "skill_elements": {
-    "programming": {"element_id": "2.B.3.a", "name": "Programming", "description": "Writing computer programs for various purposes"},
-    "systems_analysis": {"element_id": "2.B.3.b", "name": "Systems Analysis", "description": "Determining how a system should work"},
-    "technology_design": {"element_id": "2.B.3.c", "name": "Technology Design", "description": "Generating or adapting equipment and technology"},
-    "troubleshooting": {"element_id": "2.B.3.d", "name": "Troubleshooting", "description": "Determining causes of operating errors"},
-    "operations_analysis": {"element_id": "2.B.3.e", "name": "Operations Analysis", "description": "Analyzing needs and product requirements"},
-    "quality_control": {"element_id": "2.B.3.f", "name": "Quality Control Analysis", "description": "Conducting tests and inspections"},
-    "complex_problem_solving": {"element_id": "2.A.2.a", "name": "Complex Problem Solving", "description": "Identifying complex problems and developing options"},
-    "critical_thinking": {"element_id": "2.A.2.b", "name": "Critical Thinking", "description": "Using logic and reasoning to identify strengths and weaknesses"},
-    "mathematics": {"element_id": "2.A.1.e", "name": "Mathematics", "description": "Using mathematics to solve problems"},
-    "active_learning": {"element_id": "2.A.2.c", "name": "Active Learning", "description": "Understanding the implications of new information"}
-  }
+    "programming": {
+      "element_id": "2.B.3.a",
+      "name": "Programming",
+      "description": "Writing computer programs for various purposes"
+    },
+    "systems_analysis": {
+      "element_id": "2.B.3.b",
+      "name": "Systems Analysis",
+      "description": "Determining how a system should work"
+    },
+    "technology_design": {
+      "element_id": "2.B.3.c",
+      "name": "Technology Design",
+      "description": "Generating or adapting equipment and technology"
+    },
+    "troubleshooting": {
+      "element_id": "2.B.3.d",
+      "name": "Troubleshooting",
+      "description": "Determining causes of operating errors"
+    },
+    "operations_analysis": {
+      "element_id": "2.B.3.e",
+      "name": "Operations Analysis",
+      "description": "Analyzing needs and product requirements"
+    },
+    "quality_control": {
+      "element_id": "2.B.3.f",
+      "name": "Quality Control Analysis",
+      "description": "Conducting tests and inspections"
+    },
+    "complex_problem_solving": {
+      "element_id": "2.A.2.a",
+      "name": "Complex Problem Solving",
+      "description": "Identifying complex problems and developing options"
+    },
+    "critical_thinking": {
+      "element_id": "2.A.2.b",
+      "name": "Critical Thinking",
+      "description": "Using logic and reasoning to identify strengths and weaknesses"
+    },
+    "mathematics": {
+      "element_id": "2.A.1.e",
+      "name": "Mathematics",
+      "description": "Using mathematics to solve problems"
+    },
+    "active_learning": {
+      "element_id": "2.A.2.c",
+      "name": "Active Learning",
+      "description": "Understanding the implications of new information"
+    }
+  },
+  "skills": [
+    {
+      "name": "prompt engineering",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172757"
+    },
+    {
+      "name": "agentic ai",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172772"
+    },
+    {
+      "name": "generative ai",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172777"
+    },
+    {
+      "name": "llm fine-tuning",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172782"
+    },
+    {
+      "name": "langchain",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172786"
+    },
+    {
+      "name": "vector databases",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172791"
+    },
+    {
+      "name": "retrieval augmented generation",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172795"
+    },
+    {
+      "name": "mlops",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172799"
+    },
+    {
+      "name": "feature engineering",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172804"
+    },
+    {
+      "name": "data lakehouse",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172808"
+    },
+    {
+      "name": "apache iceberg",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172812"
+    },
+    {
+      "name": "dbt",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172826"
+    },
+    {
+      "name": "openai api",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172831"
+    },
+    {
+      "name": "anthropic claude",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172835"
+    },
+    {
+      "name": "mistral ai",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172839"
+    },
+    {
+      "name": "huggingface",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172843"
+    },
+    {
+      "name": "cuda programming",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172848"
+    },
+    {
+      "name": "tpu programming",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172852"
+    },
+    {
+      "name": "model quantization",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172856"
+    },
+    {
+      "name": "responsible ai",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172860"
+    },
+    {
+      "name": "ai governance",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172864"
+    },
+    {
+      "name": "federated learning",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172869"
+    },
+    {
+      "name": "zero knowledge proofs",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172873"
+    },
+    {
+      "name": "web3",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172877"
+    },
+    {
+      "name": "smart contracts",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172881"
+    },
+    {
+      "name": "solidity",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172885"
+    },
+    {
+      "name": "rust",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172890"
+    },
+    {
+      "name": "webassembly",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172894"
+    },
+    {
+      "name": "edge computing",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172898"
+    },
+    {
+      "name": "iot",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172902"
+    },
+    {
+      "name": "platform engineering",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172906"
+    },
+    {
+      "name": "idp",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172910"
+    },
+    {
+      "name": "backstage",
+      "category": "Emerging Technology",
+      "source": "taxonomy_updater",
+      "added_at": "2026-04-29T19:20:38.172914"
+    }
+  ],
+  "last_updated": "2026-04-29T19:20:38.172920",
+  "taxonomy_updater_version": "1.0"
 }

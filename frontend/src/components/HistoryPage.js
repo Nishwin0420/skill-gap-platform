@@ -6,8 +6,10 @@ import {
 } from "recharts";
 import {
   FiClock, FiTrendingUp, FiTarget, FiActivity,
-  FiUser, FiCalendar, FiAward, FiX, FiRefreshCw
+  FiUser, FiCalendar, FiAward, FiX, FiRefreshCw,
+  FiCheckCircle, FiXCircle
 } from "react-icons/fi";
+import { toTitleCase } from "../utils/stringUtils";
 import axios from "axios";
 import API_BASE from "../config/api";
 
@@ -174,10 +176,13 @@ function HistoryPage() {
           transition={{ delay: 0.4 }}
           className="glass-card p-6"
         >
-          <h3 className="section-title mb-3">🔥 Most Frequently Missing Skills</h3>
+          <h3 className="section-title flex items-center gap-2 mb-3">
+            <FiTrendingUp className="text-red-400" />
+            Most Frequently Missing Skills
+          </h3>
           <div className="flex flex-wrap gap-2">
             {stats.most_common_missing.map((skill, i) => (
-              <span key={i} className="skill-tag-missing capitalize">{skill}</span>
+              <span key={i} className="skill-tag-missing capitalize">{toTitleCase(skill)}</span>
             ))}
           </div>
         </motion.div>
@@ -206,6 +211,7 @@ function HistoryPage() {
                 <tr className="text-xs text-gray-500 uppercase border-b border-primary-900/20">
                   <th className="py-3 text-left">#</th>
                   <th className="py-3 text-left">Date</th>
+                  <th className="py-3 text-left">Target Role</th>
                   <th className="py-3 text-left">Resume Skills</th>
                   <th className="py-3 text-right">Match %</th>
                   <th className="py-3 text-right">Score</th>
@@ -231,6 +237,9 @@ function HistoryPage() {
                       {item.created_at
                         ? new Date(item.created_at).toLocaleDateString()
                         : "N/A"}
+                    </td>
+                    <td className="py-3 font-medium text-white capitalize text-sm">
+                      {item.target_role && item.target_role !== "N/A" ? item.target_role : "General"}
                     </td>
                     <td className="py-3">
                       <div className="flex flex-wrap gap-1">
@@ -291,6 +300,9 @@ function HistoryPage() {
                   Analysis Details
                 </h2>
                 <p className="text-gray-400 text-sm mt-1">
+                  <FiTarget className="inline mr-1" />
+                  Target Role: <span className="text-white font-medium capitalize">{selectedAnalysis.target_role && selectedAnalysis.target_role !== "N/A" ? selectedAnalysis.target_role : "General"}</span>
+                  <span className="mx-2">•</span>
                   <FiCalendar className="inline mr-1" />
                   {selectedAnalysis.created_at ? new Date(selectedAnalysis.created_at).toLocaleString() : "N/A"}
                 </p>
@@ -340,8 +352,8 @@ function HistoryPage() {
                   {selectedAnalysis.job_skills?.map((s, i) => {
                     const hasSkill = selectedAnalysis.resume_skills?.includes(s);
                     return (
-                      <span key={i} className={`px-3 py-1 rounded-full text-xs border ${hasSkill ? 'bg-emerald-900/20 text-emerald-300 border-emerald-900/30' : 'bg-red-900/20 text-red-300 border-red-900/30'} capitalize`}>
-                        {s} {hasSkill ? '✓' : '✗'}
+                      <span key={i} className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs border ${hasSkill ? 'bg-emerald-900/20 text-emerald-300 border-emerald-900/30' : 'bg-red-900/20 text-red-300 border-red-900/30'} capitalize`}>
+                        {toTitleCase(s)} {hasSkill ? <FiCheckCircle size={11} /> : <FiXCircle size={11} />}
                       </span>
                     )
                   })}

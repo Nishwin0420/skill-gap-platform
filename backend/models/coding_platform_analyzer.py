@@ -277,21 +277,39 @@ class CodingPlatformAnalyzer:
         github: Optional[str] = None,
     ) -> Dict:
         """
-        Retrieve/estimate profile data for each supplied username.
+        Retrieve profile data for each supplied username.
+        Tries live API first; falls back to deterministic estimate on failure.
         Returns a dict: platform_name → profile_data.
         """
+        # Lazy-import live clients (avoids startup cost if not needed)
+        from backend.api_clients.github_client import fetch_github_profile
+        from backend.api_clients.leetcode_client import fetch_leetcode_profile
+
         profiles = {}
-        platform_map = {
-            "leetcode": leetcode,
-            "codechef": codechef,
-            "hackerrank": hackerrank,
-            "codeforces": codeforces,
-            "github": github,
-        }
-        for platform, username in platform_map.items():
-            if username and username.strip():
-                profiles[platform] = _estimate_platform_score(platform, username.strip())
+
+        # ── GitHub: try live API first ──────────────────────────
+        if github and github.strip():
+            live = fetch_github_profile(github.strip())
+            profiles["github"] = live if live else _estimate_platform_score("github", github.strip())
+
+        # ── LeetCode: try live GraphQL API ──────────────────────
+        if leetcode and leetcode.strip():
+            live = fetch_leetcode_profile(leetcode.strip())
+            profiles["leetcode"] = live if live else _estimate_platform_score("leetcode", leetcode.strip())
+
+        # ── Other platforms: use deterministic estimate ──────────
+        # (No reliable public API without authentication)
+        if codechef and codechef.strip():
+            profiles["codechef"] = _estimate_platform_score("codechef", codechef.strip())
+
+        if hackerrank and hackerrank.strip():
+            profiles["hackerrank"] = _estimate_platform_score("hackerrank", hackerrank.strip())
+
+        if codeforces and codeforces.strip():
+            profiles["codeforces"] = _estimate_platform_score("codeforces", codeforces.strip())
+
         return profiles
+
 
     def compute_skill_proficiency(
         self,

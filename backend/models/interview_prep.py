@@ -89,15 +89,17 @@ class InterviewPrepGenerator:
     def __init__(self):
         self.normalizer = get_normalizer()
 
-    def generate_prep(self, user_skills, job_skills, target_role=None, gap_analysis=None):
+    def generate_prep(self, user_skills, job_skills, target_role=None, gap_analysis=None, job_description=None):
         """
         Generate interview preparation questions and tips.
+        Tries Groq LLM for dynamic questions; falls back to static dict.
 
         Args:
             user_skills: Skills user has
             job_skills: Skills required by the job
             target_role: Target job role
             gap_analysis: Output from SkillGapEngine
+            job_description: Raw JD text for Groq context (optional)
 
         Returns:
             Dict with questions, tips, and preparation strategy
@@ -105,24 +107,76 @@ class InterviewPrepGenerator:
         matched = set(user_skills) & set(job_skills)
         missing = set(job_skills) - set(user_skills)
 
-        # Questions for matched skills (you'll be tested on what you claim)
+        # ── Try Groq LLM for dynamic questions ──────────────────
+        ai_result = None
+        try:
+            from backend.api_clients.groq_client import generate_interview_questions
+            ai_result = generate_interview_questions(
+                user_skills=list(matched),
+                missing_skills=list(missing),
+                target_role=target_role,
+                job_description=job_description,
+            )
+        except Exception:
+            pass
+
+        if ai_result and ai_result.get("questions"):
+            q_data = ai_result["questions"]
+            tech_questions = {
+                "your_skills": [q for q in q_data.get("technical_questions", [])
+                                if q.get("skill", "").lower() in {s.lower() for s in matched}][:8],
+                "gap_skills": [q for q in q_data.get("technical_questions", [])
+                               if q.get("skill", "").lower() in {s.lower() for s in missing}][:6],
+            }
+            # If skill-split yields nothing, put all technical in your_skills
+            if not tech_questions["your_skills"] and not tech_questions["gap_skills"]:
+                tech_questions["your_skills"] = q_data.get("technical_questions", [])[:8]
+
+            behavioral = q_data.get("behavioral_questions", BEHAVIORAL_QUESTIONS[:4])
+
+            tips = self._generate_tips(matched, missing, target_role)
+            study_plan = self._generate_study_plan(missing, gap_analysis)
+
+            return {
+                "target_role": target_role or "General",
+                "total_questions": len(tech_questions["your_skills"]) + len(tech_questions["gap_skills"]) + len(behavioral),
+                "technical_questions": tech_questions,
+                "behavioral_questions": behavioral,
+                "preparation_tips": tips,
+                "study_plan": study_plan,
+                "confidence_areas": list(matched)[:5],
+                "weak_areas": list(missing)[:5],
+                "ai_generated": True,
+                "ai_model": ai_result.get("model", "groq"),
+            }
+
+        # ── Fallback: static question dictionary ─────────────────
         matched_questions = []
         for skill in matched:
             skill_lower = skill.lower()
             if skill_lower in INTERVIEW_QUESTIONS:
                 matched_questions.extend(INTERVIEW_QUESTIONS[skill_lower])
+            else:
+                matched_questions.extend([
+                    {"q": f"Can you explain your experience and expertise working with {skill}?", "level": "intermediate", "type": "technical"},
+                    {"q": f"Describe a complex problem you solved using {skill}.", "level": "advanced", "type": "technical"}
+                ])
 
-        # Questions for missing skills (prepare to address gaps)
         gap_questions = []
         for skill in missing:
             skill_lower = skill.lower()
             if skill_lower in INTERVIEW_QUESTIONS:
                 gap_questions.extend(INTERVIEW_QUESTIONS[skill_lower][:2])
+            else:
+                gap_questions.extend([
+                    {"q": f"How would you approach learning {skill} for this role?", "level": "beginner", "type": "technical"},
+                    {"q": f"What do you know about {skill} and its core principles?", "level": "beginner", "type": "technical"}
+                ])
 
-        # Prep tips
+        for q in matched_questions + gap_questions:
+            q["source"] = "curated"
+
         tips = self._generate_tips(matched, missing, target_role)
-
-        # Study plan
         study_plan = self._generate_study_plan(missing, gap_analysis)
 
         return {
@@ -136,8 +190,10 @@ class InterviewPrepGenerator:
             "preparation_tips": tips,
             "study_plan": study_plan,
             "confidence_areas": list(matched)[:5],
-            "weak_areas": list(missing)[:5]
+            "weak_areas": list(missing)[:5],
+            "ai_generated": False,
         }
+
 
     def _generate_tips(self, matched, missing, target_role):
         tips = []

@@ -38,6 +38,7 @@ class InterviewPrepRequest(BaseModel):
     user_skills: List[str]
     job_skills: List[str]
     target_role: Optional[str] = None
+    job_description: Optional[str] = None   # NEW: full JD for Groq context
 
 
 class ComparativeRequest(BaseModel):
@@ -117,7 +118,8 @@ def generate_interview_prep(data: InterviewPrepRequest):
     """
     prep_gen = get_interview_prep()
     result = prep_gen.generate_prep(
-        data.user_skills, data.job_skills, data.target_role
+        data.user_skills, data.job_skills, data.target_role,
+        job_description=data.job_description
     )
     return result
 
@@ -135,34 +137,80 @@ def comparative_analysis(data: ComparativeRequest):
     gap_engine = get_gap_engine()
     predictor = get_predictor()
 
-    # Role benchmarks
-    role_benchmarks = {
-        "Machine Learning Engineer": {
-            "required_skills": ["python", "machine learning", "deep learning", "tensorflow", "sql", "docker", "git"],
-            "avg_experience": 3.0,
-            "avg_score": 65,
-        },
-        "Full Stack Developer": {
-            "required_skills": ["javascript", "react", "node.js", "python", "sql", "docker", "git", "html", "css"],
-            "avg_experience": 2.5,
-            "avg_score": 60,
-        },
-        "Data Scientist": {
-            "required_skills": ["python", "machine learning", "sql", "data analysis", "statistics", "pandas", "deep learning"],
-            "avg_experience": 2.5,
-            "avg_score": 62,
-        },
-        "DevOps Engineer": {
-            "required_skills": ["docker", "kubernetes", "aws", "linux", "git", "python", "jenkins", "terraform"],
-            "avg_experience": 3.0,
-            "avg_score": 58,
-        },
-        "Backend Developer": {
-            "required_skills": ["python", "sql", "docker", "rest api", "git", "postgresql", "redis"],
-            "avg_experience": 2.0,
-            "avg_score": 63,
-        },
+    # Dynamic Role Benchmarks based on Market Data and Analysis History
+    from backend.models.market_analyzer import get_market_analyzer
+    from backend.database.db_setup import SessionLocal
+    from backend.database.crud import get_all_analyses
+    import json as json_mod
+
+    analyzer = get_market_analyzer()
+
+    # Determine which roles to benchmark against
+    roles_to_benchmark = [
+        "Machine Learning Engineer",
+        "Full Stack Developer",
+        "Data Scientist",
+        "DevOps Engineer",
+        "Backend Developer"
+    ]
+    if data.target_role and data.target_role not in roles_to_benchmark:
+        roles_to_benchmark.append(data.target_role)
+
+    # 1. Fetch historical average scores for these roles
+    history_by_role = {}
+    db = SessionLocal()
+    try:
+        analyses = get_all_analyses(db, limit=1000)
+        for a in analyses:
+            t_role = "General"
+            if a.analysis_result:
+                try:
+                    res = json_mod.loads(a.analysis_result)
+                    t_role = res.get("target_role") or "General"
+                except (json_mod.JSONDecodeError, TypeError):
+                    pass
+            if t_role != "General":
+                if t_role not in history_by_role:
+                    history_by_role[t_role] = []
+                if a.employability_score:
+                    history_by_role[t_role].append(a.employability_score)
+    finally:
+        db.close()
+
+    # 2. Build benchmarks using MarketAnalyzer (for skills/experience) and History (for scores)
+    role_benchmarks = {}
+    
+    # Fallback skills in case market data is empty for a specific role
+    fallback_skills = {
+        "Machine Learning Engineer": ["python", "machine learning", "deep learning", "tensorflow", "sql", "docker", "git"],
+        "Full Stack Developer": ["javascript", "react", "node.js", "python", "sql", "docker", "git", "html", "css"],
+        "Data Scientist": ["python", "machine learning", "sql", "data analysis", "statistics", "pandas", "deep learning"],
+        "DevOps Engineer": ["docker", "kubernetes", "aws", "linux", "git", "python", "jenkins", "terraform"],
+        "Backend Developer": ["python", "sql", "docker", "rest api", "git", "postgresql", "redis"]
     }
+
+    for role in roles_to_benchmark:
+        market_data = analyzer.get_role_analysis(role)
+        
+        # Extract required skills dynamically from market data
+        req_skills = []
+        if market_data and market_data.get("total_postings", 0) > 0:
+            req_skills = [s["skill"] for s in market_data.get("top_skills", [])]
+        
+        if not req_skills:
+            req_skills = fallback_skills.get(role, ["python", "sql", "git", "communication"])
+            
+        avg_exp = market_data.get("avg_experience", 2.5) if market_data else 2.5
+        
+        # Calculate avg_score from actual user history if available, else default to 60
+        hist_scores = history_by_role.get(role, [])
+        avg_score = sum(hist_scores) / len(hist_scores) if hist_scores else 60.0
+
+        role_benchmarks[role] = {
+            "required_skills": req_skills,
+            "avg_experience": avg_exp,
+            "avg_score": round(avg_score, 1),
+        }
 
     results = {}
     for role, benchmark in role_benchmarks.items():
@@ -234,6 +282,15 @@ def get_analysis_history(limit: int = 50):
                 except (json_mod.JSONDecodeError, TypeError):
                     missing_skills = []
 
+            # Extract target_role from the stored analysis_result JSON blob
+            target_role = "N/A"
+            if a.analysis_result:
+                try:
+                    result_data = json_mod.loads(a.analysis_result)
+                    target_role = result_data.get("target_role") or "N/A"
+                except (json_mod.JSONDecodeError, TypeError):
+                    pass
+
             history.append({
                 "id": a.id,
                 "resume_skills": resume_skills,
@@ -244,7 +301,7 @@ def get_analysis_history(limit: int = 50):
                 "readiness_level": a.readiness_level,
                 "gap_severity": a.gap_severity,
                 "created_at": str(a.created_at) if a.created_at else None,
-                "target_role": getattr(a, "target_role", "N/A"),
+                "target_role": target_role,
             })
         return {
             "total_analyses": len(history),

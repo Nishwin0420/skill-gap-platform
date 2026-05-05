@@ -8,11 +8,13 @@ import {
 import {
   FiTarget, FiTrendingUp,
   FiBarChart2, FiCpu, FiZap, FiCheckCircle, FiXCircle, FiBook, FiCode,
-  FiClock, FiUsers, FiEdit, FiClipboard, FiAlertTriangle, FiAward
+  FiClock, FiUsers, FiEdit, FiClipboard, FiAlertTriangle, FiAward, FiFileText, FiChevronDown, FiChevronUp, FiStar
 } from "react-icons/fi";
+import { toTitleCase } from "../utils/stringUtils";
 
 function ResultsDashboard({ result }) {
   const [copiedIdx, setCopiedIdx] = useState(null);
+  const [isAdvancedView, setIsAdvancedView] = useState(false);
 
   const handleCopy = (text, idx) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -37,8 +39,13 @@ function ResultsDashboard({ result }) {
 
   const {
     gap_analysis, employability, explanation, skill_proficiency,
-    skill_decay, cohort_benchmarking, ats_optimization
+    skill_decay, cohort_benchmarking, ats_optimization,
+    resume_skills, extracted_skills
   } = result;
+
+  // Determine all skills from resume
+  const allResumeSkills = (resume_skills || 
+    (extracted_skills?.normalized ? extracted_skills.normalized.map(s => s.canonical) : [])).map(toTitleCase);
   const score = employability?.employability_score || 0;
   const level = employability?.readiness_level || "N/A";
 
@@ -91,6 +98,25 @@ function ResultsDashboard({ result }) {
           AI-powered skill gap analysis with ML predictions & XAI explanations
         </p>
       </div>
+
+      {/* Narrative Summary */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="p-5 rounded-xl border border-primary-500/30 bg-primary-900/10 flex flex-col gap-2"
+      >
+        <h2 className="text-lg font-heading font-bold text-white flex items-center gap-2">
+          <FiStar className="text-primary-400" /> Executive Summary
+        </h2>
+        <p className="text-sm text-gray-300 leading-relaxed">
+          Based on our analysis, your profile has a <strong className="text-primary-400">{gap_analysis?.match_percentage || 0}% match</strong> for this role.
+          You are currently at a <strong className="text-emerald-400">{level}</strong> readiness level. 
+          To bridge your biggest gaps and improve your employability score ({Math.round(score)}/100), we recommend focusing on mastering:{" "}
+          <strong className="text-amber-400">
+            {(gap_analysis?.priority_ranking || []).slice(0, 3).map(item => toTitleCase(item.skill)).join(", ")}
+          </strong>.
+        </p>
+      </motion.div>
 
       {/* Top Score Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -159,7 +185,19 @@ function ResultsDashboard({ result }) {
         </motion.div>
       </div>
 
+            {/* Advanced View Toggle */}
+      <div className="flex justify-center my-4">
+        <button
+          onClick={() => setIsAdvancedView(!isAdvancedView)}
+          className="flex items-center gap-2 px-4 py-2 rounded-full border border-dark-700/50 bg-dark-900/50 text-sm font-medium text-gray-400 hover:text-white transition-colors"
+        >
+          {isAdvancedView ? <FiChevronUp /> : <FiChevronDown />}
+          {isAdvancedView ? "Hide Advanced ML Details" : "Show Advanced ML Details"}
+        </button>
+      </div>
+
       {/* Charts Row */}
+      {isAdvancedView && (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Feature Importance */}
         <motion.div
@@ -211,9 +249,34 @@ function ResultsDashboard({ result }) {
           )}
         </motion.div>
       </div>
+      )}
 
       {/* Skills Analysis */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* All Resume Skills */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.55 }}
+          className="glass-card p-6"
+        >
+          <h3 className="section-title flex items-center gap-2 mb-4">
+            <FiFileText className="text-primary-400" />
+            All Resume Skills ({allResumeSkills.length})
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {allResumeSkills.length > 0 ? (
+              allResumeSkills.map((skill, i) => (
+                <span key={i} className="px-2 py-1 rounded bg-dark-400 text-gray-300 text-xs border border-primary-900/10 capitalize">
+                  {toTitleCase(skill)}
+                </span>
+              ))
+            ) : (
+              <p className="text-gray-500 text-xs italic">No skills extracted</p>
+            )}
+          </div>
+        </motion.div>
+
         {/* Matched Skills */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -227,7 +290,7 @@ function ResultsDashboard({ result }) {
           </h3>
           <div className="flex flex-wrap gap-2">
             {(gap_analysis?.matched_skills || []).map((skill, i) => (
-              <span key={i} className="skill-tag-matched">{skill}</span>
+              <span key={i} className="skill-tag-matched">{toTitleCase(skill)}</span>
             ))}
           </div>
         </motion.div>
@@ -245,7 +308,7 @@ function ResultsDashboard({ result }) {
           </h3>
           <div className="flex flex-wrap gap-2">
             {(gap_analysis?.missing_skills || []).map((skill, i) => (
-              <span key={i} className="skill-tag-missing">{skill}</span>
+              <span key={i} className="skill-tag-missing">{toTitleCase(skill)}</span>
             ))}
           </div>
         </motion.div>
@@ -279,7 +342,7 @@ function ResultsDashboard({ result }) {
               {(gap_analysis?.priority_ranking || []).map((item, i) => (
                 <tr key={i} className="border-b border-primary-900/10 hover:bg-primary-900/10">
                   <td className="py-3 font-bold text-primary-400">#{i + 1}</td>
-                  <td className="py-3 text-white capitalize">{item.skill}</td>
+                  <td className="py-3 text-white capitalize">{toTitleCase(item.skill)}</td>
                   <td className="py-3 text-gray-400 capitalize">
                     {(item.category || "").replace(/_/g, " ")}
                   </td>
@@ -307,6 +370,7 @@ function ResultsDashboard({ result }) {
       </motion.div>
 
       {/* XAI Explanations */}
+      {isAdvancedView && (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -338,18 +402,20 @@ function ResultsDashboard({ result }) {
         {explanation?.strengths?.length > 0 && (
           <div className="mt-4">
             <h4 className="text-sm font-semibold text-emerald-400 mb-2">
-              💪 Your Strengths
+              Your Strengths
             </h4>
             <div className="flex flex-wrap gap-2">
               {explanation.strengths.map((s, i) => (
                 <span key={i} className="skill-tag-matched text-xs">
-                  {s.skill} (weight: {s.market_weight}/10)
+                  {toTitleCase(s.skill)} (weight: {s.market_weight}/10)
                 </span>
               ))}
             </div>
           </div>
         )}
       </motion.div>
+
+      )}
 
       {/* Readiness Distribution Pie Chart */}
       <motion.div
@@ -396,7 +462,7 @@ function ResultsDashboard({ result }) {
           <div className="flex items-start justify-between mb-2">
             <h3 className="section-title flex items-center gap-2">
               <FiCode className="text-primary-400" />
-              🏆 Skill Proficiency from Coding Platforms
+              Skill Proficiency from Coding Platforms
             </h3>
             <div className="flex gap-2 flex-wrap justify-end">
               {Object.values(skill_proficiency.profiles || {}).map((p, i) => (
@@ -449,14 +515,14 @@ function ResultsDashboard({ result }) {
           <div className="space-y-3 mt-4">
             {skill_proficiency.skill_proficiency.map((item, i) => (
               <motion.div
-                key={item.skill}
+                key={toTitleCase(item.skill)}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.1 + i * 0.04 }}
                 className="flex items-center gap-3"
               >
                 {/* Skill name */}
-                <span className="text-sm text-gray-300 w-32 capitalize truncate">{item.skill}</span>
+                <span className="text-sm text-gray-300 w-32 capitalize truncate">{toTitleCase(item.skill)}</span>
 
                 {/* Strength bar */}
                 <div className="flex-1 h-3 bg-dark-400 rounded-full overflow-hidden">
@@ -495,7 +561,7 @@ function ResultsDashboard({ result }) {
           </div>
 
           <p className="text-xs text-gray-600 mt-4 text-right">
-            ⚡ Proficiency estimated from {skill_proficiency.platforms_analyzed} connected platform{skill_proficiency.platforms_analyzed !== 1 ? 's' : ''}
+            Proficiency estimated from {skill_proficiency.platforms_analyzed} connected platform{skill_proficiency.platforms_analyzed !== 1 ? 's' : ''}
           </p>
         </motion.div>
       )}
@@ -512,17 +578,17 @@ function ResultsDashboard({ result }) {
           <div className="flex items-start justify-between mb-1">
             <h3 className="section-title flex items-center gap-2">
               <FiClock className="text-amber-400" />
-              ⏳ Skill Freshness Analysis
+              Skill Freshness Analysis
             </h3>
             <div className="flex gap-2 text-xs">
               <span className="px-2 py-0.5 rounded-full bg-emerald-900/30 text-emerald-400 border border-emerald-900/40">
-                🟢 {skill_decay.summary.fresh} Fresh
+                 {skill_decay.summary.fresh} Fresh
               </span>
               <span className="px-2 py-0.5 rounded-full bg-amber-900/30 text-amber-400 border border-amber-900/40">
-                🟡 {skill_decay.summary.fading} Fading
+                 {skill_decay.summary.fading} Fading
               </span>
               <span className="px-2 py-0.5 rounded-full bg-red-900/30 text-red-400 border border-red-900/40">
-                🔴 {skill_decay.summary.decaying} Decaying
+                 {skill_decay.summary.decaying} Decaying
               </span>
             </div>
           </div>
@@ -548,13 +614,13 @@ function ResultsDashboard({ result }) {
           <div className="space-y-3">
             {skill_decay.skill_freshness.map((item, i) => (
               <motion.div
-                key={item.skill}
+                key={toTitleCase(item.skill)}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 + i * 0.04 }}
                 className="flex items-center gap-3"
               >
-                <span className="text-sm w-32 capitalize truncate text-gray-300">{item.skill}</span>
+                <span className="text-sm w-32 capitalize truncate text-gray-300">{toTitleCase(item.skill)}</span>
                 <div className="flex-1 h-3 bg-dark-400 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
@@ -576,7 +642,7 @@ function ResultsDashboard({ result }) {
                   item.label === "Fresh" ? "text-emerald-400" :
                   item.label === "Fading" ? "text-amber-400" : "text-red-400"
                 }`}>{item.freshness_score}</span>
-                <span className="text-sm w-4">{item.icon}</span>
+                <span className={`w-2 h-2 rounded-full ${item.label === "Fresh" ? "bg-emerald-400" : item.label === "Fading" ? "bg-amber-400" : "bg-red-400"}`}></span>
               </motion.div>
             ))}
           </div>
@@ -593,7 +659,7 @@ function ResultsDashboard({ result }) {
         >
           <h3 className="section-title flex items-center gap-2 mb-1">
             <FiUsers className="text-blue-400" />
-            👥 Peer Cohort Benchmarking
+            Peer Cohort Benchmarking
           </h3>
           <p className="section-subtitle mb-4">
             How you rank vs. other platform users targeting{" "}
@@ -602,41 +668,76 @@ function ResultsDashboard({ result }) {
 
           {cohort_benchmarking.percentile !== null && cohort_benchmarking.percentile !== undefined ? (
             <div className="space-y-4">
-              {/* Percentile Hero */}
-              <div className="flex items-center gap-6">
-                <div className="text-center">
-                  <div className="text-5xl font-extrabold text-primary-400">
-                    {cohort_benchmarking.percentile}%
+              {/* Percentile Hero — dual bars */}
+              <div className="space-y-3">
+                {/* vs Platform Users */}
+                <div className="flex items-center gap-6">
+                  <div className="text-center w-20 shrink-0">
+                    <div className="text-4xl font-extrabold text-primary-400">
+                      {cohort_benchmarking.percentile}%
+                    </div>
+                    <p className="text-xs text-gray-500 mt-0.5">vs Users</p>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">Percentile</p>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                      <span>0%</span>
+                      <span className={`font-semibold ${
+                        cohort_benchmarking.percentile >= 80 ? "text-emerald-400" :
+                        cohort_benchmarking.percentile >= 60 ? "text-primary-400" :
+                        cohort_benchmarking.percentile >= 40 ? "text-amber-400" :
+                        "text-red-400"
+                      }`}>{cohort_benchmarking.rank_label}</span>
+                      <span>100%</span>
+                    </div>
+                    <div className="h-4 bg-dark-400 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${cohort_benchmarking.percentile}%` }}
+                        transition={{ delay: 1.3, duration: 1.0 }}
+                        className="h-full rounded-full"
+                        style={{
+                          background:
+                            cohort_benchmarking.percentile >= 80 ? "linear-gradient(90deg,#059669,#10b981)" :
+                            cohort_benchmarking.percentile >= 60 ? "linear-gradient(90deg,#0f766e,#2dd4bf)" :
+                            cohort_benchmarking.percentile >= 40 ? "linear-gradient(90deg,#b45309,#f59e0b)" :
+                            "linear-gradient(90deg,#991b1b,#ef4444)",
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
-                    <span>0%</span>
-                    <span className={`font-semibold ${
-                      cohort_benchmarking.percentile >= 80 ? "text-emerald-400" :
-                      cohort_benchmarking.percentile >= 60 ? "text-primary-400" :
-                      cohort_benchmarking.percentile >= 40 ? "text-amber-400" :
-                      "text-red-400"
-                    }`}>{cohort_benchmarking.rank_label}</span>
-                    <span>100%</span>
+
+                {/* vs Live Market Standard (Feature 5) */}
+                {cohort_benchmarking.market_percentile !== null && cohort_benchmarking.market_percentile !== undefined && (
+                  <div className="flex items-center gap-6">
+                    <div className="text-center w-20 shrink-0">
+                      <div className="text-4xl font-extrabold text-amber-400">
+                        {Math.round(cohort_benchmarking.market_percentile)}%
+                      </div>
+                      <p className="text-xs text-gray-500 mt-0.5">vs Market</p>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                        <span>0%</span>
+                        <span className="font-semibold text-amber-400">
+                          {cohort_benchmarking.market_baseline_score !== null
+                            ? `Market Avg: ${cohort_benchmarking.market_baseline_score}/100`
+                            : "Live Market Standard"}
+                        </span>
+                        <span>100%</span>
+                      </div>
+                      <div className="h-4 bg-dark-400 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${cohort_benchmarking.market_percentile}%` }}
+                          transition={{ delay: 1.5, duration: 1.0 }}
+                          className="h-full rounded-full"
+                          style={{ background: "linear-gradient(90deg,#b45309,#f59e0b)" }}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="h-4 bg-dark-400 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${cohort_benchmarking.percentile}%` }}
-                      transition={{ delay: 1.3, duration: 1.0 }}
-                      className="h-full rounded-full"
-                      style={{
-                        background:
-                          cohort_benchmarking.percentile >= 80 ? "linear-gradient(90deg,#059669,#10b981)" :
-                          cohort_benchmarking.percentile >= 60 ? "linear-gradient(90deg,#0f766e,#2dd4bf)" :
-                          cohort_benchmarking.percentile >= 40 ? "linear-gradient(90deg,#b45309,#f59e0b)" :
-                          "linear-gradient(90deg,#991b1b,#ef4444)",
-                      }}
-                    />
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Cohort stats grid */}
@@ -659,7 +760,7 @@ function ResultsDashboard({ result }) {
             <div className="p-4 rounded-lg border border-primary-700/20 bg-primary-900/10 flex items-center gap-3">
               <FiAward className="text-primary-400" size={24} />
               <div>
-                <p className="text-sm font-semibold text-primary-300">🥇 Pioneer Analysis</p>
+                <p className="text-sm font-semibold text-primary-300">Pioneer Analysis</p>
                 <p className="text-xs text-gray-400 mt-1">
                   {cohort_benchmarking.message || "Run more analyses to unlock peer benchmarking data."}
                 </p>
@@ -680,7 +781,7 @@ function ResultsDashboard({ result }) {
           <div className="flex items-start justify-between mb-1">
             <h3 className="section-title flex items-center gap-2">
               <FiEdit className="text-violet-400" />
-              ✍️ ATS Resume Optimizer
+              ATS Resume Optimizer
             </h3>
             <div className="text-xs px-2 py-0.5 rounded-full bg-violet-900/30 text-violet-300 border border-violet-700/40">
               {ats_optimization.under_highlighted_count} skills to improve
@@ -694,7 +795,7 @@ function ResultsDashboard({ result }) {
           <div className="space-y-5">
             {ats_optimization.ats_suggestions.map((item, si) => (
               <motion.div
-                key={item.skill}
+                key={toTitleCase(item.skill)}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.3 + si * 0.06 }}
@@ -703,12 +804,12 @@ function ResultsDashboard({ result }) {
                 {/* Skill header */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-white capitalize">{item.skill}</span>
+                    <span className="text-sm font-semibold text-white capitalize">{toTitleCase(item.skill)}</span>
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                       item.urgency === "High" ? "bg-red-900/30 text-red-400 border border-red-900/40" :
                       item.urgency === "Medium" ? "bg-amber-900/30 text-amber-400 border border-amber-900/40" :
-                      "bg-emerald-900/30 text-emerald-400 border border-emerald-900/40"
-                    }`}>{item.urgency} Impact</span>
+                      "bg-slate-800/50 text-slate-400 border border-slate-700/50"
+                    }`}>{item.urgency} Priority</span>
                   </div>
                   <div className="text-xs text-gray-500">
                     Currently: {item.current_mentions}× mention{item.current_mentions !== 1 ? "s" : ""} •

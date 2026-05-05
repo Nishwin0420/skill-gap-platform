@@ -134,7 +134,8 @@ def analyze_user(data: AnalyzeRequest):
                     "employability_score": prediction.get("employability_score", 0),
                     "readiness_level": prediction.get("readiness_level", ""),
                     "gap_severity": gap_analysis["gap_severity"],
-                    "missing_skills": gap_analysis["missing_skills"]
+                    "missing_skills": gap_analysis["missing_skills"],
+                    "target_role": data.target_role or ""
                 }
             )
             db.close()

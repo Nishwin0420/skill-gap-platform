@@ -13,8 +13,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATABASE_URL = f"sqlite:///{BASE_DIR / 'skillgap.db'}"
+from backend.config import DATABASE_URL
 
 engine = create_engine(DATABASE_URL, echo=False)
 SessionLocal = sessionmaker(bind=engine)
@@ -160,7 +159,7 @@ class SkillCategory(Base):
 def init_db():
     """Initialize database and create all tables."""
     Base.metadata.create_all(bind=engine)
-    print("✅ Database tables created successfully!")
+    print("[OK] Database tables created successfully!")
 
 
 def get_db():

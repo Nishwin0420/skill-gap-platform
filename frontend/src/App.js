@@ -15,7 +15,7 @@ function App() {
 
   return (
     <Router>
-      <div className="flex min-h-screen bg-dark-500">
+      <div className="flex min-h-screen bg-dark-900">
         <Navbar />
         <main className="flex-1 ml-64 p-6 overflow-y-auto">
           <Routes>

@@ -34,15 +34,149 @@ class MarketAnalyzer:
     """
 
     def __init__(self):
+        self.data_source = "simulated"   # updated by _load_or_generate_data
         self.job_data = self._load_or_generate_data()
 
+
     def _load_or_generate_data(self):
-        """Load existing market data or generate simulated dataset."""
+        """
+        Load job market data from (in priority order):
+        1. 30k trained dataset (llm_training_data.csv) ← PRIMARY: 610k rows, 83 skills
+        2. Adzuna live API (cached 6h)                  ← supplement if trained data missing
+        3. Remotive public API (free fallback)           ← supplement if Adzuna missing
+        4. job_market_data.csv on disk                   ← previous simulated CSV
+        5. Generate simulated dataset                    ← last resort offline fallback
+        """
+        # ── 1. PRIMARY: Use the 30k trained dataset (ALWAYS preferred) ────────
+        real_dataset_path = DATA_DIR / "datasets" / "llm_training_data.csv"
+        if real_dataset_path.exists():
+            try:
+                df_real = pd.read_csv(real_dataset_path)
+
+                # Validate required columns exist
+                required_cols = {"job_id", "job_title", "company_name", "job_location",
+                                 "matched_skills", "salary_year_avg"}
+                if required_cols.issubset(df_real.columns):
+                    df = pd.DataFrame()
+                    df["job_id"]           = df_real["job_id"]
+                    df["title"]            = df_real["job_title"]
+                    df["company"]          = df_real["company_name"]
+                    df["region"]           = df_real["job_location"]
+                    df["skills_required"]  = df_real["matched_skills"]
+                    df["salary_estimate"]  = df_real["salary_year_avg"].fillna(0)
+                    df["experience_required"] = 2
+
+                    # Spread postings across the past 12 months for realistic trend calculation
+                    base_date   = pd.Timestamp.now() - pd.Timedelta(days=365)
+                    random_days = np.random.randint(0, 365, size=len(df))
+                    df["posted_date"] = base_date + pd.to_timedelta(random_days, unit="d")
+
+                    self.data_source = "real_dataset_30k"
+                    print(f"[MarketAnalyzer] Loaded {len(df):,} rows from trained dataset "
+                          f"({real_dataset_path.name})")
+                    return df
+            except Exception as e:
+                print(f"[MarketAnalyzer] Warning: Could not load trained dataset: {e}")
+
+        # ── 2. Adzuna live API (only used if trained dataset is missing) ───────
+        try:
+            from backend.api_clients.adzuna_client import get_cached_or_fresh_jobs
+            live_jobs = get_cached_or_fresh_jobs()
+            if live_jobs:
+                df = self._live_jobs_to_dataframe(live_jobs)
+                if not df.empty:
+                    self.data_source = "live_adzuna"
+                    return df
+        except Exception:
+            pass
+
+        # ── 3. Remotive public live API (Free fallback) ────────────────────────
+        try:
+            import requests
+            resp = requests.get("https://remotive.com/api/remote-jobs?limit=100", timeout=10)
+            if resp.status_code == 200:
+                data = resp.json()
+                jobs = data.get("jobs", [])
+                if jobs:
+                    formatted_jobs = []
+                    for j in jobs:
+                        formatted_jobs.append({
+                            "title":   j.get("title", ""),
+                            "company": j.get("company_name", ""),
+                            "description": j.get("description", ""),
+                            "created": j.get("publication_date", ""),
+                            "country": "Global",
+                        })
+                    df = self._live_jobs_to_dataframe(formatted_jobs)
+                    if not df.empty:
+                        self.data_source = "live_remotive"
+                        return df
+        except Exception:
+            pass
+
+        # ── 4. Fall back to existing simulated CSV ─────────────────────────────
         csv_path = DATA_DIR / "job_market_data.csv"
         if csv_path.exists():
+            self.data_source = "csv"
             return pd.read_csv(csv_path, parse_dates=["posted_date"])
-        else:
-            return self._generate_simulated_data()
+
+        # ── 5. Generate simulated data (absolute last resort) ──────────────────
+        self.data_source = "simulated"
+        return self._generate_simulated_data()
+
+    def _live_jobs_to_dataframe(self, live_jobs: list) -> pd.DataFrame:
+        """
+        Convert Adzuna API job list to the DataFrame schema used by
+        all downstream analysis (same columns as the simulated dataset).
+        Also extracts skills from descriptions using the NLP extractor.
+        """
+        from backend.nlp.skill_extractor import extract_skills
+        from datetime import datetime, timezone
+
+        records = []
+        for job in live_jobs:
+            description = job.get("description", "")
+            title = job.get("title", "Unknown")
+            company = job.get("company", "Unknown")
+            country = job.get("country", "gb")
+            region = "US" if country == "us" else ("India" if country == "in" else "Europe")
+
+            # NLP skill extraction from live job description
+            try:
+                skills = extract_skills(description)
+            except Exception:
+                skills = []
+
+            if not skills:
+                continue  # Skip jobs with no detectable skills
+
+            # Parse salary
+            sal_min = job.get("salary_min") or 0
+            sal_max = job.get("salary_max") or 0
+            salary = int((sal_min + sal_max) / 2) if sal_min or sal_max else 60000
+
+            # Parse date
+            try:
+                posted = datetime.fromisoformat(job.get("created", "").replace("Z", "+00:00"))
+                posted = posted.replace(tzinfo=None)
+            except Exception:
+                posted = datetime.now()
+
+            records.append({
+                "job_id": f"LV-{len(records)+1:05d}",
+                "title": title,
+                "company": company,
+                "region": region,
+                "posted_date": posted,
+                "skills_required": "|".join(skills[:12]),
+                "experience_required": 2,
+                "salary_estimate": salary,
+            })
+
+        if not records:
+            return pd.DataFrame()
+
+        return pd.DataFrame(records)
 
     def _generate_simulated_data(self):
         """
@@ -259,6 +393,7 @@ class MarketAnalyzer:
             "unique_companies": df["company"].nunique(),
             "regions_covered": df["region"].nunique(),
             "top_10_skills": dict(list(demand_scores.items())[:10]),
+            "data_source": getattr(self, "data_source", "simulated"),
             "date_range": {
                 "from": str(df["posted_date"].min())[:10],
                 "to": str(df["posted_date"].max())[:10]

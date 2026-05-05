@@ -33,6 +33,11 @@ class SkillForecaster:
         self.job_data = self._load_data()
 
     def _load_data(self):
+        from backend.models.market_analyzer import get_market_analyzer
+        analyzer = get_market_analyzer()
+        if analyzer.job_data is not None and not analyzer.job_data.empty:
+            return analyzer.job_data
+            
         csv_path = DATA_DIR / "job_market_data.csv"
         if csv_path.exists():
             return pd.read_csv(csv_path, parse_dates=["posted_date"])

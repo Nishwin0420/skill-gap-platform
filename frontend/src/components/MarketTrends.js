@@ -4,7 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, PieChart, Pie, Cell
 } from "recharts";
-import { FiTrendingUp, FiGlobe, FiFilter } from "react-icons/fi";
+import { FiTrendingUp, FiGlobe, FiFilter, FiActivity, FiDatabase } from "react-icons/fi";
 import axios from "axios";
 import API_BASE from "../config/api";
 
@@ -36,16 +36,10 @@ function MarketTrends() {
           postgresql: 6.8, "deep learning": 6.5, kubernetes: 6.3,
           git: 6.0, "data analysis": 5.8, java: 5.5,
         },
-        trending_skills: {
-          "generative ai": { growth_rate: 85, trend: "Rising", recent_count: 120 },
-          "machine learning": { growth_rate: 42, trend: "Rising", recent_count: 280 },
-          kubernetes: { growth_rate: 35, trend: "Rising", recent_count: 95 },
-          typescript: { growth_rate: 28, trend: "Rising", recent_count: 180 },
-          react: { growth_rate: 22, trend: "Rising", recent_count: 320 },
-          docker: { growth_rate: 18, trend: "Rising", recent_count: 210 },
-          aws: { growth_rate: 15, trend: "Rising", recent_count: 250 },
-          python: { growth_rate: 12, trend: "Stable", recent_count: 450 },
-        },
+        trending_skills: Array.from({ length: 85 }).reduce((acc, _, i) => {
+          acc[`Skill ${i + 1}`] = { growth_rate: Math.floor(Math.random() * 80) + 10, trend: "Rising", recent_count: Math.floor(Math.random() * 300) };
+          return acc;
+        }, {}),
         market_summary: {
           total_job_postings: 2000,
           unique_roles: 15,
@@ -59,7 +53,7 @@ function MarketTrends() {
 
   const demandData = trends?.demand_scores
     ? Object.entries(trends.demand_scores)
-        .slice(0, 15)
+        .slice(0, 100)
         .map(([skill, score]) => ({
           skill: skill.charAt(0).toUpperCase() + skill.slice(1),
           score: score,
@@ -68,6 +62,7 @@ function MarketTrends() {
 
   const trendingData = trends?.trending_skills
     ? Object.entries(trends.trending_skills)
+        .slice(0, 50)
         .map(([skill, data]) => ({
           skill: skill.charAt(0).toUpperCase() + skill.slice(1),
           growth: data.growth_rate,
@@ -105,9 +100,19 @@ function MarketTrends() {
             Market
             <span className="text-primary-400"> Trends</span>
           </h1>
-          <p className="text-gray-400 mt-1">
-            Real-time job market intelligence from{" "}
+          <p className="text-gray-400 mt-1 flex items-center gap-2">
+            Job market intelligence from{" "}
             {trends?.market_summary?.total_job_postings?.toLocaleString() || 0} postings
+            {trends?.market_summary?.data_source === "live" ? (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-red-900/20 text-red-400 border border-red-700/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                Live Data
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-800/40 text-gray-500 border border-gray-700/30">
+                <FiDatabase size={10} /> Simulated
+              </span>
+            )}
           </p>
         </div>
 
@@ -159,7 +164,7 @@ function MarketTrends() {
           className="glass-card p-6"
         >
           <h3 className="section-title mb-4">Skill Demand Scores</h3>
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width="100%" height={Math.max(350, demandData.length * 25)}>
             <BarChart data={demandData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(45,212,191,0.1)" />
               <XAxis type="number" domain={[0, 10]} />
@@ -179,16 +184,16 @@ function MarketTrends() {
           transition={{ delay: 0.4 }}
           className="glass-card p-6"
         >
-          <h3 className="section-title mb-4">🔥 Trending Skills (Growth Rate %)</h3>
-          <ResponsiveContainer width="100%" height={350}>
-            <BarChart data={trendingData}>
+          <h3 className="section-title flex items-center gap-2 mb-4"><FiActivity className="text-amber-400" /> Trending Skills (Growth Rate %)</h3>
+          <ResponsiveContainer width="100%" height={Math.max(350, trendingData.length * 25)}>
+            <BarChart data={trendingData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(45,212,191,0.1)" />
-              <XAxis dataKey="skill" tick={{ fontSize: 10, angle: -45, textAnchor: "end" }} height={80} />
-              <YAxis />
+              <XAxis type="number" />
+              <YAxis dataKey="skill" type="category" width={120} tick={{ fontSize: 10 }} />
               <Tooltip
                 contentStyle={{ background: "#0e1916", border: "1px solid #134e4a", borderRadius: 8 }}
               />
-              <Bar dataKey="growth" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="growth" fill="#f59e0b" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </motion.div>

@@ -22,11 +22,17 @@ frontend/.env
 *.sqlite
 *.sqlite3
 
-# ML Models / Large Files
+# ML Models / Large Data Files (recreated at runtime — never commit these)
 backend/data/trained_models/
+backend/data/datasets/
+backend/data/*.pkl
+backend/data/*.joblib
+backend/data/*.h5
+backend/data/*.csv
 *.pkl
 *.joblib
 *.h5
+*.csv
 
 # Node / React
 frontend/node_modules/
@@ -59,3 +65,11 @@ htmlcov/
 
 # spaCy downloaded models (too large for git)
 backend/nlp/models/
+
+# Deployment artifacts
+.vercel/
+.railway/
+*.vercel
+
+# Local SQLite DB (use PostgreSQL in production)
+skillgap.db

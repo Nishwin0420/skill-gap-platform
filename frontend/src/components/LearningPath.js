@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FiBook, FiClock, FiTrendingUp, FiExternalLink, FiCheckCircle } from "react-icons/fi";
+import { FiBook, FiClock, FiTrendingUp, FiExternalLink, FiCheckCircle, FiAward } from "react-icons/fi";
+import { toTitleCase } from "../utils/stringUtils";
 
 function LearningPath({ result }) {
   if (!result || !result.learning_path) {
@@ -108,7 +109,7 @@ function LearningPath({ result }) {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="font-semibold text-white capitalize text-lg">
-                          {step.skill}
+                          {toTitleCase(step.skill)}
                         </h3>
                         <span
                           className={`text-xs px-2 py-0.5 rounded-full ${colors.bg} ${colors.text}`}
@@ -177,8 +178,8 @@ function LearningPath({ result }) {
             <FiCheckCircle size={18} />
           </div>
           <div className="glass-card p-4 border-primary-500/30">
-            <p className="text-primary-400 font-semibold">
-              🎉 Path Complete — You'll be job-ready!
+            <p className="text-primary-400 font-semibold flex items-center gap-2">
+              <FiAward /> Path Complete — You'll be job-ready!
             </p>
             <p className="text-xs text-gray-500 mt-1">
               Complete this path to maximize your employability score

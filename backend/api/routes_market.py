@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api", tags=["Market Intelligence"])
 
 
 @router.get("/market-trends")
-def get_market_trends(region: Optional[str] = None, top_n: int = 20):
+def get_market_trends(region: Optional[str] = None, top_n: int = 150):
     """
     Get current skill demand trends from job market data.
     Optionally filter by region (India, US, Europe, etc.)

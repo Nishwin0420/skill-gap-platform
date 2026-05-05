@@ -6,48 +6,54 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // PPT Dark Theme Colors
+        // Emerald Green Primary Colors
         primary: {
-          50: '#e6faf5',
-          100: '#b3f0e0',
-          200: '#80e6cc',
-          300: '#4ddcb7',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0d9488',
-          700: '#0f766e',
-          800: '#115e59',
-          900: '#134e4a',
+          50: '#ecfdf5',
+          100: '#d1fae5',
+          200: '#a7f3d0',
+          300: '#6ee7b7',
+          400: '#34d399',
+          500: '#10b981',
+          600: '#059669',
+          700: '#047857',
+          800: '#065f46',
+          900: '#064e3b',
         },
+        // Midnight Navy / Slate
         dark: {
-          50: '#1a2e2a',
-          100: '#162623',
-          200: '#121f1c',
-          300: '#0e1916',
-          400: '#0a1310',
-          500: '#0a1f1a',
-          600: '#081a15',
-          700: '#061410',
-          800: '#040f0b',
-          900: '#020a06',
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
+          950: '#020617',
         },
+        // Electric Indigo & Amber
         accent: {
           gold: '#f59e0b',
           amber: '#d97706',
           orange: '#ea580c',
+          indigo: '#4f46e5',
+          violet: '#7c3aed',
         },
         surface: {
-          card: 'rgba(20, 40, 35, 0.8)',
-          glass: 'rgba(20, 40, 35, 0.6)',
-          hover: 'rgba(45, 212, 191, 0.1)',
+          card: 'rgba(15, 23, 42, 0.8)',
+          glass: 'rgba(15, 23, 42, 0.6)',
+          hover: 'rgba(16, 185, 129, 0.1)',
         }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        heading: ['Outfit', 'system-ui', 'sans-serif'],
+        heading: ['Playfair Display', 'system-ui', 'serif'],
       },
       backdropBlur: {
         xs: '2px',
+        md: '12px',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
@@ -70,8 +76,8 @@ module.exports = {
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 5px rgba(45, 212, 191, 0.3)' },
-          '50%': { boxShadow: '0 0 20px rgba(45, 212, 191, 0.6)' },
+          '0%, 100%': { boxShadow: '0 0 5px rgba(16, 185, 129, 0.3)' },
+          '50%': { boxShadow: '0 0 20px rgba(16, 185, 129, 0.6)' },
         },
       },
     },

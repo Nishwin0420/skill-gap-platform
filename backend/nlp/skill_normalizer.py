@@ -113,7 +113,10 @@ class SkillNormalizer:
             best_idx = np.argmax(similarities)
             best_score = similarities[best_idx]
 
-            if best_score > 0.5:
+            # Dynamic threshold: strict for short acronyms, relaxed for long phrases
+            threshold = 0.85 if len(list(self.synonym_map.keys())[best_idx]) <= 3 else 0.60
+
+            if best_score > threshold:
                 matched_term = list(self.synonym_map.keys())[best_idx]
                 return {
                     "original": raw_skill,

@@ -25,6 +25,14 @@ References:
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+# Load .env file (local dev only — production uses platform env vars)
+try:
+    from dotenv import load_dotenv
+    from pathlib import Path
+    load_dotenv(Path(__file__).resolve().parent / ".env")
+except ImportError:
+    pass  # python-dotenv not required in production
+
 from backend.api.routes_analysis import router as analysis_router
 from backend.api.routes_market import router as market_router
 from backend.api.routes_dashboard import router as dashboard_router
@@ -63,6 +71,19 @@ app.include_router(market_router)
 app.include_router(dashboard_router)
 app.include_router(innovation_router)
 
+
+# ====================================
+# STARTUP EVENTS
+# ====================================
+@app.on_event("startup")
+async def on_startup():
+    """Run background tasks on server startup."""
+    # Feature 4: Live skill taxonomy auto-update (background thread)
+    try:
+        from backend.api_clients.skill_taxonomy_updater import start_background_update
+        start_background_update()
+    except Exception as e:
+        print(f"[Startup] Taxonomy updater skipped: {e}")
 
 # ====================================
 # ROOT ENDPOINT

@@ -22,7 +22,7 @@ DATASETS_DIR.mkdir(exist_ok=True)
 # ================================
 # DATABASE
 # ================================
-DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR.parent / 'skillgap.db'}")
+DATABASE_URL = os.getenv("DATABASE_URL") or f"sqlite:///{BASE_DIR.parent / 'skillgap.db'}"
 
 # ================================
 # API CONFIGURATION
@@ -106,8 +106,8 @@ SKILL_CATEGORIES = [
 # CORS ORIGINS
 # ================================
 # In production: set ALLOWED_ORIGINS env var to your Vercel URL(s)
-# e.g. ALLOWED_ORIGINS=https://skill-gap.vercel.app,https://skill-gap-git-main.vercel.app
-# In local dev: defaults to localhost origins
+# e.g. ALLOWED_ORIGINS=https://skill-gap-platform.vercel.app
+# All *.vercel.app preview URLs are always allowed automatically.
 _raw_origins = os.getenv("ALLOWED_ORIGINS", "")
 if _raw_origins:
     CORS_ORIGINS = [o.strip() for o in _raw_origins.split(",") if o.strip()]
@@ -118,3 +118,9 @@ else:
         "http://localhost:8000",
         "http://127.0.0.1:8000",
     ]
+
+# Always append Vercel preview wildcard origins
+CORS_ORIGINS += [
+    "https://*.vercel.app",
+]
+

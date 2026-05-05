@@ -21,6 +21,41 @@ import joblib
 from pathlib import Path
 from backend.nlp.skill_normalizer import get_normalizer
 
+# Import Advanced AI Models
+try:
+    from backend.models.salary_dnn_predictor import predict_salary
+    from backend.models.career_trajectory_model import get_career_predictions
+    from backend.models.skill_graph_engine import get_bridge_recommendations
+except ImportError:
+    pass
+
+# LLM integration (optional — only loaded if fine-tuned model exists on disk)
+_llm_pipeline = None
+_LLM_MODEL_DIR = Path(__file__).resolve().parent.parent / "data" / "trained_models" / "llm_employability"
+
+
+def _get_llm_pipeline():
+    """Lazy-load the fine-tuned DistilBERT model if it exists on disk."""
+    global _llm_pipeline
+    if _llm_pipeline is not None:
+        return _llm_pipeline
+    if not _LLM_MODEL_DIR.exists():
+        return None
+    try:
+        from transformers import pipeline as hf_pipeline
+        _llm_pipeline = hf_pipeline(
+            "text-classification",
+            model=str(_LLM_MODEL_DIR),
+            tokenizer=str(_LLM_MODEL_DIR),
+            truncation=True,
+            max_length=256,
+        )
+        print("[EmployabilityPredictor] [OK] Fine-tuned LLM loaded from disk.")
+    except Exception as e:
+        print(f"[EmployabilityPredictor] LLM load skipped: {e}")
+        _llm_pipeline = None
+    return _llm_pipeline
+
 MODELS_DIR = Path(__file__).resolve().parent.parent / "data" / "trained_models"
 
 
@@ -208,6 +243,49 @@ class EmployabilityPredictor:
                 result["feature_names"],
                 [round(float(x), 4) for x in self.rf_model.feature_importances_]
             ))
+
+        # ── LLM Enrichment (silent fallback) ──────────────────────
+        # If the fine-tuned DistilBERT model exists, use it to enrich
+        # the prediction with a semantic demand signal from real job text.
+        try:
+            llm = _get_llm_pipeline()
+            if llm is not None and user_skills:
+                skill_text = ", ".join(user_skills[:30])
+                llm_result = llm(skill_text)[0]
+                result["llm_demand_label"] = llm_result["label"]
+                result["llm_demand_confidence"] = round(llm_result["score"], 3)
+                # Blend LLM signal into employability score (20% weight)
+                llm_boost = {"High Demand": 10, "Medium Demand": 0, "Low Demand": -10}
+                boost = llm_boost.get(llm_result["label"], 0) * llm_result["score"]
+                blended = round(
+                    np.clip(result.get("employability_score", 50) + boost, 0, 100), 2
+                )
+                result["employability_score_llm_blended"] = blended
+                result["llm_model"] = "distilbert-base-uncased (fine-tuned on real job data)"
+        except Exception:
+            pass  # LLM enrichment is completely optional — never break existing flow
+
+        # ── Advanced AI Model Integration ─────────────────────
+        try:
+            # 1. Salary DNN
+            salary_pred = predict_salary(features.flatten().tolist()[:7])
+            if salary_pred:
+                result["predicted_salary_usd"] = round(salary_pred, 2)
+            
+            # 2. Career Trajectory (Markov Chain)
+            # Infer current role from highest match or target_role if passed
+            # Here we default to "Software Engineer" as a fallback base
+            base_role = "Software Engineer"
+            result["career_trajectory_forecast"] = get_career_predictions(base_role)
+            
+            # 3. Skill Graph Engine (Node2Vec)
+            missing_skills = gap_analysis.get("missing_skills", [])
+            if missing_skills and user_skills:
+                bridge_skills = get_bridge_recommendations(user_skills, missing_skills)
+                result["bridge_skills_recommended"] = bridge_skills
+                
+        except Exception as e:
+            print(f"[EmployabilityPredictor] Advanced AI enrichment skipped: {e}")
 
         return result
 

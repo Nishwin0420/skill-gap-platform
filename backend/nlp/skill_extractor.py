@@ -91,7 +91,13 @@ def extract_skills_regex(text):
     text_lower = text.lower()
     extracted = set()
     for skill in ALL_SKILL_TERMS:
-        pattern = r'\b' + re.escape(skill) + r'\b'
+        # For very short acronyms (<= 3 chars like git, gcp, aws), use strict boundaries 
+        # to prevent matching inside hyphenated text like 'di-git-al'
+        if len(skill) <= 3:
+            pattern = r'(?<![a-zA-Z0-9\-])' + re.escape(skill) + r'(?![a-zA-Z0-9\-])'
+        else:
+            pattern = r'\b' + re.escape(skill) + r'\b'
+            
         if re.search(pattern, text_lower):
             extracted.add(skill)
     return list(extracted)

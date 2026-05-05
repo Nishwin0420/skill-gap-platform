@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FiUpload, FiFileText, FiSearch, FiZap, FiCpu,
-  FiChevronDown, FiChevronUp, FiCode
+  FiChevronDown, FiChevronUp, FiCode, FiBriefcase, FiAlertCircle
 } from "react-icons/fi";
 import axios from "axios";
 import API_BASE from "../config/api";
@@ -224,7 +224,7 @@ function SkillAnalyzer({ onAnalysisComplete }) {
 
       {/* Input Form */}
       <div className="glass-card p-6 space-y-5">
-        <h2 className="section-title">📄 Resume Input</h2>
+        <h2 className="section-title flex items-center gap-2"><FiFileText className="text-primary-400" /> Resume Input</h2>
 
         {/* Resume Text */}
         <div>
@@ -260,7 +260,7 @@ function SkillAnalyzer({ onAnalysisComplete }) {
 
         <hr className="border-primary-900/20" />
 
-        <h2 className="section-title">💼 Job Description</h2>
+        <h2 className="section-title flex items-center gap-2"><FiBriefcase className="text-amber-400" /> Job Description</h2>
 
         {/* JD Text */}
         <div>
@@ -333,7 +333,7 @@ function SkillAnalyzer({ onAnalysisComplete }) {
             <div className="flex items-center gap-2">
               <FiCode className="text-primary-400" size={16} />
               <span className="text-sm font-semibold text-primary-300">
-                🏆 Coding Profiles
+                Coding Profiles
               </span>
               <span className="text-xs text-gray-500 italic">(Optional — enhances skill proficiency analysis)</span>
               {hasPlatforms && (
@@ -370,7 +370,7 @@ function SkillAnalyzer({ onAnalysisComplete }) {
                     {/* LeetCode */}
                     <div>
                       <label className="text-xs text-gray-400 mb-1 flex items-center gap-1 block">
-                        <span>🟡</span> LeetCode Username
+                        <span className="w-2 h-2 rounded-full bg-amber-400"></span> LeetCode Username
                       </label>
                       <input
                         type="text"
@@ -384,7 +384,7 @@ function SkillAnalyzer({ onAnalysisComplete }) {
                     {/* CodeChef */}
                     <div>
                       <label className="text-xs text-gray-400 mb-1 flex items-center gap-1 block">
-                        <span>🟤</span> CodeChef Username
+                        <span className="w-2 h-2 rounded-full bg-orange-600"></span> CodeChef Username
                       </label>
                       <input
                         type="text"
@@ -398,7 +398,7 @@ function SkillAnalyzer({ onAnalysisComplete }) {
                     {/* HackerRank */}
                     <div>
                       <label className="text-xs text-gray-400 mb-1 flex items-center gap-1 block">
-                        <span>🟢</span> HackerRank Username
+                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span> HackerRank Username
                       </label>
                       <input
                         type="text"
@@ -412,7 +412,7 @@ function SkillAnalyzer({ onAnalysisComplete }) {
                     {/* Codeforces */}
                     <div>
                       <label className="text-xs text-gray-400 mb-1 flex items-center gap-1 block">
-                        <span>🔵</span> Codeforces Username
+                        <span className="w-2 h-2 rounded-full bg-blue-500"></span> Codeforces Username
                       </label>
                       <input
                         type="text"
@@ -426,7 +426,7 @@ function SkillAnalyzer({ onAnalysisComplete }) {
                     {/* GitHub */}
                     <div className="sm:col-span-2">
                       <label className="text-xs text-gray-400 mb-1 flex items-center gap-1 block">
-                        <span>⚫</span> GitHub Username
+                        <span className="w-2 h-2 rounded-full bg-gray-500"></span> GitHub Username
                       </label>
                       <input
                         type="text"
@@ -439,7 +439,7 @@ function SkillAnalyzer({ onAnalysisComplete }) {
                   </div>
 
                   <div className="text-xs text-gray-600 flex items-start gap-1.5">
-                    <span className="text-amber-500 mt-0.5">ℹ</span>
+                    <FiAlertCircle className="text-amber-500 mt-0.5" />
                     <span>
                       Profile data is analyzed locally. Only usernames are used to estimate proficiency;
                       no private account data is accessed.
