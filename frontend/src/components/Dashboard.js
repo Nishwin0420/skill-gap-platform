@@ -32,7 +32,7 @@ function Dashboard() {
           average_employability_score: 0,
         },
         market_overview: {
-          total_job_postings: 2000,
+          total_job_postings: 5000,
           unique_roles: 15,
           unique_companies: 20,
           regions_covered: 5,
